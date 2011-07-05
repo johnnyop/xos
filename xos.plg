@@ -1,0 +1,343 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+E:\My Documents\51Á·Ï°\OS\xos\xos.uvproj
+Project File Date:  01/14/2011
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling STARTUP.A51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0021H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0027H
+Program Size: data=9.0 xdata=0 code=41
+"xos" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0021H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0027H
+Program Size: data=9.0 xdata=0 code=41
+"xos" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0021H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0027H
+Program Size: data=9.0 xdata=0 code=41
+"xos" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0021H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0027H
+Program Size: data=9.0 xdata=0 code=41
+"xos" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0021H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0027H
+Program Size: data=9.0 xdata=0 code=41
+"xos" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0021H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0027H
+Program Size: data=9.0 xdata=0 code=41
+"xos" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 000AH
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0010H
+Program Size: data=9.0 xdata=0 code=18
+"xos" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0004H
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  X_INIT
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 000AH
+Program Size: data=9.0 xdata=0 code=12
+"xos" - 0 Error(s), 4 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+init.a51(7): error A30: SEGMENT SYMBOL EXPECTED
+init.a51(10): warning A41: MISSING 'END' STATEMENT
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0004H
+Program Size: data=9.0 xdata=0 code=15
+"xos" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0021H
+Program Size: data=9.0 xdata=0 code=44
+"xos" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0021H
+Program Size: data=9.0 xdata=0 code=44
+creating hex file from "xos"...
+"xos" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+linking...
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  ?C_IBP
+    MODULE:  STARTUP.obj (?C_STARTUP)
+    ADDRESS: 0021H
+Program Size: data=9.0 xdata=0 code=44
+creating hex file from "xos"...
+"xos" - 0 Error(s), 2 Warning(s).
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+xos.h(6): error A9: SYNTAX ERROR
+xos.h(6): error A3: ILLEGAL CHARACTER
+xos.h(6): error A3: ILLEGAL CHARACTER
+xos.h(6): error A3: ILLEGAL CHARACTER
+xos.h(6): error A3: ILLEGAL CHARACTER
+xos.h(7): error A9: SYNTAX ERROR
+xos.h(7): error A3: ILLEGAL CHARACTER
+xos.h(8): error A9: SYNTAX ERROR
+xos.h(9): error A9: SYNTAX ERROR
+xos.h(15): error A9: SYNTAX ERROR
+xos.h(16): error A9: SYNTAX ERROR
+xos.h(17): error A9: SYNTAX ERROR
+xos.h(18): error A9: SYNTAX ERROR
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+xos.h(4): error A9: SYNTAX ERROR
+xos.h(5): error A9: SYNTAX ERROR
+xos.h(6): error A9: SYNTAX ERROR
+xos.h(8): error A9: SYNTAX ERROR
+xos.h(8): error A3: ILLEGAL CHARACTER
+xos.h(9): error A9: SYNTAX ERROR
+xos.h(10): error A9: SYNTAX ERROR
+xos.h(16): error A9: SYNTAX ERROR
+xos.h(17): error A9: SYNTAX ERROR
+xos.h(18): error A9: SYNTAX ERROR
+xos.h(19): error A9: SYNTAX ERROR
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+xos.h(4): error A9: SYNTAX ERROR
+xos.h(5): error A9: SYNTAX ERROR
+xos.h(6): error A9: SYNTAX ERROR
+xos.h(8): error A9: SYNTAX ERROR
+xos.h(8): error A3: ILLEGAL CHARACTER
+xos.h(9): error A9: SYNTAX ERROR
+xos.h(10): error A9: SYNTAX ERROR
+xos.h(16): error A9: SYNTAX ERROR
+xos.h(17): error A9: SYNTAX ERROR
+xos.h(18): error A9: SYNTAX ERROR
+xos.h(19): error A9: SYNTAX ERROR
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+xos.h(4): error A9: SYNTAX ERROR
+xos.h(5): error A9: SYNTAX ERROR
+xos.h(6): error A9: SYNTAX ERROR
+xos.h(8): error A9: SYNTAX ERROR
+xos.h(8): error A3: ILLEGAL CHARACTER
+xos.h(9): error A9: SYNTAX ERROR
+xos.h(10): error A9: SYNTAX ERROR
+xos.h(16): error A9: SYNTAX ERROR
+xos.h(17): error A9: SYNTAX ERROR
+xos.h(18): error A9: SYNTAX ERROR
+xos.h(19): error A9: SYNTAX ERROR
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+xos.h(10): error A9: SYNTAX ERROR
+xos.h(10): error A3: ILLEGAL CHARACTER
+xos.h(11): error A9: SYNTAX ERROR
+xos.h(12): error A9: SYNTAX ERROR
+xos.h(18): error A9: SYNTAX ERROR
+xos.h(19): error A9: SYNTAX ERROR
+xos.h(20): error A9: SYNTAX ERROR
+xos.h(21): error A9: SYNTAX ERROR
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+xos.h(3): error A9: SYNTAX ERROR
+xos.h(4): error A9: SYNTAX ERROR
+xos.h(5): error A9: SYNTAX ERROR
+xos.h(6): error A9: SYNTAX ERROR
+xos.h(7): error A9: SYNTAX ERROR
+xos.h(8): error A9: SYNTAX ERROR
+xos.h(10): error A9: SYNTAX ERROR
+xos.h(11): error A9: SYNTAX ERROR
+xos.h(12): error A9: SYNTAX ERROR
+xos.h(15): error A9: SYNTAX ERROR
+xos.h(15): error A3: ILLEGAL CHARACTER
+xos.h(16): error A9: SYNTAX ERROR
+xos.h(17): error A9: SYNTAX ERROR
+xos.h(23): error A9: SYNTAX ERROR
+xos.h(24): error A9: SYNTAX ERROR
+xos.h(25): error A9: SYNTAX ERROR
+xos.h(26): error A9: SYNTAX ERROR
+Target not created
+Build target 'Target 1'
+assembling STARTUP.A51...
+assembling init.a51...
+compiling xos.c...
+linking...
+Program Size: data=10.0 xdata=0 code=44
+creating hex file from "xos"...
+"xos" - 0 Error(s), 0 Warning(s).
+Clean started: Project: 'xos'
+   deleting intermediate output files for target 'Target 1'
+Build target 'Target 1'
+assembling init.a51...
+assembling STARTUP.A51...
+compiling xos.c...
+src\xos.c(1): warning C318: can't open file 'xos_def.h'
+linking...
+Program Size: data=10.0 xdata=0 code=44
+creating hex file from ".\temp\xos"...
+".\temp\xos" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+assembling init.a51...
+assembling STARTUP.A51...
+compiling xos.c...
+linking...
+Program Size: data=10.0 xdata=0 code=44
+creating hex file from ".\temp\xos"...
+".\temp\xos" - 0 Error(s), 0 Warning(s).

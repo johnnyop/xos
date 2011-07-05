@@ -1,0 +1,150 @@
+C51 COMPILER V9.00   TEST                                                                  07/05/2011 16:34:10 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE TEST
+OBJECT MODULE PLACED IN .\temp\test.obj
+COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\test.c BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEBUG OBJECTE
+                    -XTEND PRINT(.\temp\test.lst) OBJECT(.\temp\test.obj)
+
+line level    source
+
+   1          #include "xos_opt.h"   
+   2          #include "uart.h"
+   3          #include "def.h"
+   4          #include "xos.h"
+   5          #include "sem.h"
+   6          #include "1602.h"
+   7          #include <absacc.h> 
+   8          #include <reg52.h>       
+   9          /**/
+  10          semphore sem = { 0, 0 };
+  11          unsigned char sb = 0, sb2 = 0;
+  12          void t1() { /**/
+  13   1              init_uart(0xfd, 1);      
+  14   1              schedule();
+  15   1              SBUF = 1;
+  16   1              while (1) {
+  17   2                      //do_stuff(0);          
+  18   2                      //sem_down(&sem);
+  19   2                      //P0 = ~1;
+  20   2                      sleep(HZ);
+  21   2                      //SBUF = ++sb;
+  22   2      
+  23   2              } /**
+  24   1               init_1602();
+  25   1               while (1) {
+  26   1               prints(0,0, "T1");
+  27   1               sleep(HZ);
+  28   1               }
+  29   1               /**/
+  30   1      }
+  31          
+  32          void t2() { /**/
+  33   1              while (1) {
+  34   2                      //do_stuff(1);     
+  35   2                      sleep(2 * HZ + 12);
+  36   2                      //SBUF = ++sb2;
+  37   2                      //P0 = ~(1 << 2);
+  38   2                      //if (P1 > 2) {
+  39   2                      //      sem_up(&sem, 1);
+  40   2                      //}
+  41   2                      //sleep(HZ);
+  42   2              } /**
+  43   1               while (1) {
+  44   1               prints(6,0, "T1");
+  45   1               sleep(HZ);
+  46   1               }
+  47   1               /**/
+  48   1      }
+  49          
+  50          void delay(int n) {
+  51   1              int i;
+  52   1              for (n; n > 0; n--)
+  53   1                      for (i = 4; i > 0; i--)
+  54   1                              ;
+C51 COMPILER V9.00   TEST                                                                  07/05/2011 16:34:10 PAGE 2   
+
+  55   1      }
+  56          void t3() { /**/
+  57   1              //schedule();     
+  58   1              while (1) {
+  59   2                      //do_stuff(2);    
+  60   2                      //sem_down(&sem2);
+  61   2                      //sem_down(&sem);        
+  62   2                      //do_t3();
+  63   2                      //P2++;
+  64   2                      //if (P2 > 2)
+  65   2                      //      sem_up(&sem, 1);
+  66   2                      // 
+  67   2                      //SBUF = ++P2;
+  68   2                      //delay(1);  
+  69   2                      sleep(HZ / 3 + 25);
+  70   2                      //P0 = ~(1 << 3);
+  71   2              }
+  72   1              /**             
+  73   1               while (1) {
+  74   1               prints(0,1, "T1");
+  75   1               sleep(HZ);
+  76   1               }
+  77   1               /**/
+  78   1      }
+  79          void t4() {
+  80   1              /**
+  81   1               while(1) {
+  82   1               do_stuff(3);
+  83   1               //schedule();
+  84   1               P3++;
+  85   1               //if (P3 > 4)
+  86   1               //     sem_up(&sem2, 1);
+  87   1               sleep(HZ);
+  88   1               }
+  89   1               /**/
+  90   1              while (1) {
+  91   2                      //prints(6,1, "T1");
+  92   2                      sleep(HZ / 4 + 39);
+  93   2                      //P0 = ~(1 << 4);
+  94   2              }
+  95   1      }
+  96          void main() {  
+  97   1                      ET0 = 0;
+  98   1                      //init_uart(0xfd, 1);   
+  99   1                      //SBUF = ++P2;
+ 100   1              add_task((u16) t1);
+ 101   1              add_task((u16) t2);
+ 102   1              add_task((u16) t3);
+ 103   1              add_task((u16) t4);
+ 104   1              xos_init();
+ 105   1      }
+ 106          
+ 107          void com_uart(void) interrupt 4
+ 108          {
+ 109   1              /*                      接收数据中断                                            */
+ 110   1              disable_irq_save();
+ 111   1              if(RI)   {
+ 112   2                      if (SBUF != 0)
+ 113   2                              P0 = SBUF;
+ 114   2                      RI=0;
+ 115   2              }  else if(TI) {/*          发送数据中断                        */
+ 116   2                      TI=0;   
+C51 COMPILER V9.00   TEST                                                                  07/05/2011 16:34:10 PAGE 3   
+
+ 117   2                      //delay(31);
+ 118   2                      SBUF = ++sb2;
+ 119   2              }
+ 120   1              enable_irq_restore();
+ 121   1      }
+ 122          /**/
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    147    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

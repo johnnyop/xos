@@ -1,0 +1,7 @@
+
+PRINT(".\temp\xos.m51") RAMSIZE(256)
+//VERLAY (sem_try_down ! *)
+//NOOVERLAY
+DW(16)
+
+

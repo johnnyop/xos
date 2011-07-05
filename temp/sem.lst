@@ -1,0 +1,91 @@
+C51 COMPILER V9.00   SEM                                                                   07/05/2011 16:34:10 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE SEM
+OBJECT MODULE PLACED IN .\temp\sem.obj
+COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\xlib\sem.c BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEFINE(OV
+                    -ERLAY) DEBUG OBJECTEXTEND PRINT(.\temp\sem.lst) OBJECT(.\temp\sem.obj)
+
+line level    source
+
+   1          #include "sem.h"
+   2          
+   3          u8 data sem_count[NR_TASK];
+   4          void sem_down(semphore *sem)
+   5          {
+   6   1              disable_irq_save();
+   7   1              if (sem->count == 0) {
+   8   2                      sem_count[current]++;
+   9   2                      task_status[current] |= TASK_SEM_WAIT;
+  10   2                      sem->wait_task |= (1 << current);
+  11   2                      enable_irq_restore();
+  12   2                      schedule();
+  13   2              } else {
+  14   2                      sem->count--;
+  15   2                      enable_irq_restore();
+  16   2              }
+  17   1      }
+  18          
+  19          
+  20          u8 sem_try_down(semphore *sem)
+  21          {
+  22   1              u8 ret = 1;
+  23   1              disable_irq_save();
+  24   1              if (sem->count == 0)
+  25   1                      goto sem_quit;
+  26   1              sem->count--;
+  27   1              ret = 0;
+  28   1      sem_quit:
+  29   1              enable_irq_restore();
+  30   1              return ret;
+  31   1      }
+  32          void sem_up(semphore *sem, unsigned char n)
+  33          {
+  34   1              u8 id, s_id;
+  35   1              if (n == 0)
+  36   1                      return;
+  37   1              disable_irq_save();
+  38   1              sem->count += n;
+  39   1              if (sem->count < n)
+  40   1                      sem->count = -1;
+  41   1              if (sem->wait_task != 0) {
+  42   2                      /**
+  43   2                       * TL0 & 0X7, 为了不是每次up都是从0开始,所以用TL0来获得一个随机数,从这个随机数开机
+  44   2                       * */
+  45   2                      id = (TLN) & 7;
+  46   2                      s_id = id;
+  47   2                      do {
+  48   3                              n = (1 << id);
+  49   3                              if (sem->wait_task & n) {
+  50   4                                      sem->wait_task &= ~n;
+  51   4                                      sem->count--;
+  52   4                                      --sem_count[id];
+  53   4                                      if (sem_count[id] == 0) {
+  54   5                                              task_status[id] &= (~TASK_SEM_WAIT);
+C51 COMPILER V9.00   SEM                                                                   07/05/2011 16:34:10 PAGE 2   
+
+  55   5                                      }
+  56   4                                      if (sem->count == 0)
+  57   4                                              break;
+  58   4                              }
+  59   3                              id++;
+  60   3                              if (id >= MAX_TASK)
+  61   3                                      id = 0;
+  62   3                      } while ((s_id != id) && (sem->wait_task != 0));
+  63   2              }
+  64   1              enable_irq_restore();
+  65   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    272    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4       7
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

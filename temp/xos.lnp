@@ -1,0 +1,14 @@
+".\temp\STARTUP.obj",
+".\temp\sem.obj",
+".\temp\test.obj",
+".\temp\kernel.obj",
+".\temp\xos.obj",
+".\temp\uart.obj" 
+TO ".\temp\xos"
+
+PRINT(".\temp\xos.m51") RAMSIZE(256)
+//VERLAY (sem_try_down ! *)
+//NOOVERLAY
+DW(16)
+
+

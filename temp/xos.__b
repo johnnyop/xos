@@ -1,0 +1,7 @@
+TRANSFER
+".\temp\STARTUP.obj",
+".\temp\sem.obj",
+".\temp\test.obj",
+".\temp\kernel.obj",
+".\temp\xos.obj" 
+TO ".\temp\xos.LIB"
