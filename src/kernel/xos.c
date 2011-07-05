@@ -14,7 +14,9 @@ u8 data id_timeslice[NR_TASK];
 u8 data task_status[NR_TASK];
 u16 data sleep_time[NR_TASK];
 
-#if (SLEEPED_FIRST != 0)
+#if (SLEEPED_FIRST != 0)   
+	//sleeped_task每一位代表一个任务，
+	//任务休眠，则相应的sleeped_task位置位
 	u8 sleeped_task = 0;
 #endif /* SLEEPED_FIRST*/	    
 

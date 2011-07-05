@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   TEST                                                                  07/05/2011 16:34:10 PAGE 1   
+C51 COMPILER V9.00   TEST                                                                  07/05/2011 16:54:35 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE TEST
@@ -28,7 +28,7 @@ line level    source
   18   2                      //sem_down(&sem);
   19   2                      //P0 = ~1;
   20   2                      sleep(HZ);
-  21   2                      //SBUF = ++sb;
+  21   2                      SBUF = ++sb;
   22   2      
   23   2              } /**
   24   1               init_1602();
@@ -62,7 +62,7 @@ line level    source
   52   1              for (n; n > 0; n--)
   53   1                      for (i = 4; i > 0; i--)
   54   1                              ;
-C51 COMPILER V9.00   TEST                                                                  07/05/2011 16:34:10 PAGE 2   
+C51 COMPILER V9.00   TEST                                                                  07/05/2011 16:54:35 PAGE 2   
 
   55   1      }
   56          void t3() { /**/
@@ -126,7 +126,7 @@ line level    source
  114   2                      RI=0;
  115   2              }  else if(TI) {/*          发送数据中断                        */
  116   2                      TI=0;   
-C51 COMPILER V9.00   TEST                                                                  07/05/2011 16:34:10 PAGE 3   
+C51 COMPILER V9.00   TEST                                                                  07/05/2011 16:54:35 PAGE 3   
 
  117   2                      //delay(31);
  118   2                      SBUF = ++sb2;
@@ -137,7 +137,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    147    ----
+   CODE SIZE        =    152    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

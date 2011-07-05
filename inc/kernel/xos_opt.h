@@ -55,9 +55,9 @@
 #define TICK_TIME 10		/* 一个时间片的时间(单位ms, 则系统定时器定时时长)*/
 #define TIME_SLICE 5		/* 任务时间片, 不能大于15*/
 // 10ms , 24MHz, 1
-#define FOSC 24	/* 晶振频率*/
-#define TH 0xb1		/* 系统定时器,计数器装载值*/
-#define TL 0xf5 
+#define FOSC 11.0592	/* 晶振频率*/
+#define TH 0xDC		/* 系统定时器,计数器装载值*/
+#define TL 0x20 
 /* 系统定时器用的计数器寄存器*/
 #define THN TH0
 #define TLN TL0
