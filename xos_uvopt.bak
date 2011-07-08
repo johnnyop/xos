@@ -268,10 +268,10 @@
       <FileType>1</FileType>
       <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>2</ColumnNumber>
+      <ColumnNumber>7</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>32</TopLine>
-      <CurrentLine>32</CurrentLine>
+      <TopLine>20</TopLine>
+      <CurrentLine>35</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\src\test.c</PathWithFileName>
       <FilenameWithoutPath>test.c</FilenameWithoutPath>
@@ -282,10 +282,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>39</ColumnNumber>
+      <ColumnNumber>46</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>43</TopLine>
-      <CurrentLine>43</CurrentLine>
+      <TopLine>146</TopLine>
+      <CurrentLine>152</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\src\kernel\kernel.c</PathWithFileName>
       <FilenameWithoutPath>kernel.c</FilenameWithoutPath>
@@ -296,10 +296,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>31</ColumnNumber>
+      <ColumnNumber>1</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>55</TopLine>
-      <CurrentLine>55</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>18</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\src\kernel\xos.c</PathWithFileName>
       <FilenameWithoutPath>xos.c</FilenameWithoutPath>
@@ -375,7 +375,7 @@
   <AlienFiles>
     <PathWithFilename>F:\workplace\51\xos\INC\KERNEL\XOS.H</PathWithFilename>
     <TopLine>9</TopLine>
-    <CurrentLine>21</CurrentLine>
+    <CurrentLine>23</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -400,8 +400,8 @@
 
   <AlienFiles>
     <PathWithFilename>F:\workplace\51\xos\INC\KERNEL\XOS_OPT.H</PathWithFilename>
-    <TopLine>49</TopLine>
-    <CurrentLine>60</CurrentLine>
+    <TopLine>28</TopLine>
+    <CurrentLine>28</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -1765,7 +1765,7 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>4</ActiveTab>
+      <ActiveTab>7</ActiveTab>
       <Documents>
         <Doc>
           <Name>.\src\test.c</Name>
@@ -1781,21 +1781,21 @@
         </Doc>
         <Doc>
           <Name>.\src\kernel\xos.c</Name>
-          <ColumnNumber>11</ColumnNumber>
-          <TopLine>157</TopLine>
-          <CurrentLine>178</CurrentLine>
+          <ColumnNumber>1</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>18</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\src\kernel\kernel.c</Name>
-          <ColumnNumber>39</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>17</CurrentLine>
+          <ColumnNumber>46</ColumnNumber>
+          <TopLine>146</TopLine>
+          <CurrentLine>152</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\INC\KERNEL\XOS.H</Name>
-          <ColumnNumber>26</ColumnNumber>
+          <ColumnNumber>28</ColumnNumber>
           <TopLine>9</TopLine>
-          <CurrentLine>21</CurrentLine>
+          <CurrentLine>23</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\INC\UART.H</Name>
@@ -1811,9 +1811,9 @@
         </Doc>
         <Doc>
           <Name>\WORKPLACE\51\XOS\INC\KERNEL\XOS_OPT.H</Name>
-          <ColumnNumber>15</ColumnNumber>
-          <TopLine>49</TopLine>
-          <CurrentLine>60</CurrentLine>
+          <ColumnNumber>30</ColumnNumber>
+          <TopLine>28</TopLine>
+          <CurrentLine>28</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

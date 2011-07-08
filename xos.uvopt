@@ -321,6 +321,32 @@
   </Group>
 
   <AlienFiles>
+    <PathWithFilename>F:\WORKPLACE\51\XOS\INC\KERNEL\XOS_OPT.H</PathWithFilename>
+    <TopLine>28</TopLine>
+    <CurrentLine>28</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
     <PathWithFilename>E:\My Documents\51练习\OS\xos\src\12864.c</PathWithFilename>
     <TopLine>136</TopLine>
     <CurrentLine>136</CurrentLine>
@@ -376,32 +402,6 @@
     <PathWithFilename>F:\workplace\51\xos\INC\KERNEL\XOS.H</PathWithFilename>
     <TopLine>9</TopLine>
     <CurrentLine>23</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>F:\workplace\51\xos\INC\KERNEL\XOS_OPT.H</PathWithFilename>
-    <TopLine>28</TopLine>
-    <CurrentLine>28</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
