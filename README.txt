@@ -1,3 +1,10 @@
+ git remote add origin git@github.com:johnnyop/xos.git
+  git push -u origin master
+      
+Existing Git Repo?
+  cd existing_git_repo
+  git remote add origin git@github.com:johnnyop/xos.git
+  git push -u origin master
 /************************************************************/
 PS:时间片循环任务调度
 1.	可重入函数, 这里不一定是编译后有警告的函数才有重入问题(WARNING L15: MULTIPLE CALL TO SEGMENT), 
