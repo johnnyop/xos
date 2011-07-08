@@ -1,6 +1,6 @@
- git remote add origin git@github.com:johnnyop/xos.git
-  git push -u origin master
-      
+github: git@github.com:johnnyop/xos.git
+git remote add origin git@github.com:johnnyop/xos.git
+git push -u origin master
 Existing Git Repo?
   cd existing_git_repo
   git remote add origin git@github.com:johnnyop/xos.git
