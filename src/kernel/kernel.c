@@ -14,6 +14,7 @@
 
 #pragma ENDASM		
 /**/
+static unsigned char xpcon;
 void do_schedule()
 {
 	//_u8 id;
@@ -22,7 +23,9 @@ TRY_AGAIN:
 	if (find_next() == NR_TASK) {
 		SP = os_sp;
 		EA = 1;
-		PCON |= 1;	   
+		xpcon = PCON;
+		PCON |= 1;	 
+		PCON = xpcon;  
 		goto TRY_AGAIN;
 	}
 	//quit_os(id);	

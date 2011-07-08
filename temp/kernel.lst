@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   KERNEL                                                                07/05/2011 16:54:36 PAGE 1   
+C51 COMPILER V9.00   KERNEL                                                                07/09/2011 17:21:27 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE KERNEL
@@ -24,174 +24,179 @@ line level    source
   14          
   15          #pragma ENDASM          
   16          /**/
-  17          void do_schedule()
-  18          {
-  19   1              //_u8 id;
-  20   1      TRY_AGAIN:
-  21   1              //id = find_next();
-  22   1              if (find_next() == NR_TASK) {
-  23   2                      SP = os_sp;
-  24   2                      EA = 1;
-  25   2                      PCON |= 1;         
-  26   2                      goto TRY_AGAIN;
-  27   2              }
-  28   1              //quit_os(id);  
-  29   1      
-  30   1      #ifdef XOS_REENTRANT    
-  31   1      #pragma ASM     
-  32   1                      // if (current != findnext()) //r7 = findnext();  {
-  33   1                      MOV     A,current
-  34   1                      XRL     A,r7
-  35   1                      JZ      POPREGS
-  36   1      
-  37   1                      // bp[current] = C_BP
-  38   1                      mov a, #bp
-  39   1                      add a, current
-  40   1                      mov r0, a
-  41   1                      mov @r0, C_BP 
-  42   1                      // C_BP = bp[r7] // 
-  43   1                      mov a, #bp
-  44   1                      add a, r7
-  45   1                      mov r0, a
-  46   1                      mov C_BP, @r0
-  47   1                      // }  
-  48   1      POPREGS:
-  49   1      #pragma ENDASM
-  50   1      
-  51   1      #endif /* XOS_REENTRANT*/
-  52   1      
-  53   1              //current = find_next();
-  54   1              
-C51 COMPILER V9.00   KERNEL                                                                07/05/2011 16:54:36 PAGE 2   
+  17          static unsigned char xpcon;
+  18          void do_schedule()
+  19          {
+  20   1              //_u8 id;
+  21   1      TRY_AGAIN:
+  22   1              //id = find_next();
+  23   1              if (find_next() == NR_TASK) {
+  24   2                      SP = os_sp;
+  25   2                      EA = 1;
+  26   2                      xpcon = PCON;
+  27   2                      PCON |= 1;       
+  28   2                      PCON = xpcon;  
+  29   2                      goto TRY_AGAIN;
+  30   2              }
+  31   1              //quit_os(id);  
+  32   1      
+  33   1      #ifdef XOS_REENTRANT    
+  34   1      #pragma ASM     
+  35   1                      // if (current != findnext()) //r7 = findnext();  {
+  36   1                      MOV     A,current
+  37   1                      XRL     A,r7
+  38   1                      JZ      POPREGS
+  39   1      
+  40   1                      // bp[current] = C_BP
+  41   1                      mov a, #bp
+  42   1                      add a, current
+  43   1                      mov r0, a
+  44   1                      mov @r0, C_BP 
+  45   1                      // C_BP = bp[r7] // 
+  46   1                      mov a, #bp
+  47   1                      add a, r7
+  48   1                      mov r0, a
+  49   1                      mov C_BP, @r0
+  50   1                      // }  
+  51   1      POPREGS:
+  52   1      #pragma ENDASM
+  53   1      
+  54   1      #endif /* XOS_REENTRANT*/
+C51 COMPILER V9.00   KERNEL                                                                07/09/2011 17:21:27 PAGE 2   
 
-  55   1      #pragma ASM             
-  56   1              mov current, r7 
-  57   1      #pragma ENDASM 
-  58   1              SP = stack_bottom[current];
-  59   1      #pragma ASM
-  60   1                      pop ar7;
-  61   1                      pop ar6;
-  62   1                      pop ar5;
-  63   1                      pop ar4;
-  64   1                      pop ar3;
-  65   1                      pop ar2;
-  66   1                      pop ar1;
-  67   1                      pop ar0;
-  68   1      #pragma ENDASM   
-  69   1              _pop_(PSW);    
-  70   1              _pop_(DPL);
-  71   1              _pop_(DPH);       
-  72   1              _pop_(B);       
-  73   1              _pop_(ACC); 
-  74   1              clr_os();
-  75   1      }
-  76          
-  77          
-  78          
+  55   1      
+  56   1              //current = find_next();
+  57   1              
+  58   1      #pragma ASM             
+  59   1              mov current, r7 
+  60   1      #pragma ENDASM 
+  61   1              SP = stack_bottom[current];
+  62   1      #pragma ASM
+  63   1                      pop ar7;
+  64   1                      pop ar6;
+  65   1                      pop ar5;
+  66   1                      pop ar4;
+  67   1                      pop ar3;
+  68   1                      pop ar2;
+  69   1                      pop ar1;
+  70   1                      pop ar0;
+  71   1      #pragma ENDASM   
+  72   1              _pop_(PSW);    
+  73   1              _pop_(DPL);
+  74   1              _pop_(DPH);       
+  75   1              _pop_(B);       
+  76   1              _pop_(ACC); 
+  77   1              clr_os();
+  78   1      }
   79          
-  80          /**
-  81           * 返回下一个要执行的任务, 如果返回NR_TASK则,全部都休眠或其它不能运行的状态.
-  82           */
-  83          u8 find_next()
-  84          {
-  85   1              u8 id, tmp;
-  86   1              if (id_timeslice[current] != 0)
-  87   1                      id_timeslice[current]--;
-  88   1      #if (SLEEPED_FIRST != 0)
-  89   1              if (sleeped_task != 0) {
-  90   2                      for (id = 0; id < NR_TASK; id++) {
-  91   3                              tmp = (1 << id);
-  92   3                              if (sleeped_task & tmp) {
-  93   4                                      sleeped_task &= tmp;
-  94   4                                      if (task_status[id] == 0) {
-  95   5                                              goto retback;    
-  96   5                                      }
-  97   4                              }
-  98   3                      }               
-  99   2              }
- 100   1      #endif /* SLEEPED_FIRST*/
- 101   1              id = current;
- 102   1              while ((id_timeslice[id] & 0xf) == 0
- 103   1                      || (task_status[id] != 0)) {    
- 104   2                      if (++id == NR_TASK) {
- 105   3                              id = 0;         
- 106   3                      }
- 107   2                      /* 所有任务的时间片都用完, 时间片+5, 重新开始*/
- 108   2                      if (id == current) {
- 109   3                              for (id = 0; id < NR_TASK; id++) {
- 110   4                                      id_timeslice[id] &= 0xf0;
- 111   4                                      id_timeslice[id] += TIME_SLICE;
- 112   4                              }                                
- 113   3                              id = 0;
- 114   3                              while (task_status[id] != 0) {
- 115   4                                      id++;
- 116   4                                      if (id == NR_TASK)
-C51 COMPILER V9.00   KERNEL                                                                07/05/2011 16:54:36 PAGE 3   
+  80          
+  81          
+  82          
+  83          /**
+  84           * 返回下一个要执行的任务, 如果返回NR_TASK则,全部都休眠或其它不能运行的状态.
+  85           */
+  86          u8 find_next()
+  87          {
+  88   1              u8 id, tmp;
+  89   1              if (id_timeslice[current] != 0)
+  90   1                      id_timeslice[current]--;
+  91   1      #if (SLEEPED_FIRST != 0)
+  92   1              //查找休眠时间结束的任务, sleeped_task每一位代表一个任务，
+  93   1              //任务休眠，则相应的sleeped_task位置位
+  94   1              if (sleeped_task != 0) {
+  95   2                      for (id = 0; id < NR_TASK; id++) {
+  96   3                              tmp = (1 << id);
+  97   3                              if (sleeped_task & tmp) {
+  98   4                                      sleeped_task &= tmp;
+  99   4                                      if (task_status[id] == 0) {
+ 100   5                                              goto retback;    
+ 101   5                                      }
+ 102   4                              }
+ 103   3                      }               
+ 104   2              }
+ 105   1      #endif /* SLEEPED_FIRST*/
+ 106   1              id = current;
+ 107   1              while ((id_timeslice[id] & 0xf) == 0
+ 108   1                      || (task_status[id] != 0)) {    
+ 109   2                      if (++id == NR_TASK) {
+ 110   3                              id = 0;         
+ 111   3                      }
+ 112   2                      /* 所有任务的时间片都用完, 时间片+5, 重新开始*/
+ 113   2                      if (id == current) {
+ 114   3                              for (id = 0; id < NR_TASK; id++) {
+ 115   4                                      id_timeslice[id] &= 0xf0;
+ 116   4                                      id_timeslice[id] += TIME_SLICE;
+C51 COMPILER V9.00   KERNEL                                                                07/09/2011 17:21:27 PAGE 3   
 
- 117   4                                              goto retback;//return id;
- 118   4                              }
- 119   3                              break;
- 120   3                      }
- 121   2              }
- 122   1      retback:
- 123   1              return id;
- 124   1      }
- 125          
- 126          /**
- 127           * 任务休眠时间递减
- 128           * */
- 129          static void decreas_sleep_time()
- 130          {
- 131   1              u8 i = 0;
- 132   1              for (; i < NR_TASK; i++) {
- 133   2                      if (sleep_time[i] != 0) {
- 134   3                              sleep_time[i]--;
- 135   3                              if (sleep_time[i] == 0) {
- 136   4                                      task_status[i] &= (~TASK_SLEEP);
- 137   4      #if (SLEEPED_FIRST != 0)
- 138   4                                      sleeped_task |= (1 << i);
- 139   4      #endif // SLEEPED_FIRST
- 140   4                              }
- 141   3                      }
- 142   2              }
- 143   1      }
- 144          
- 145          /**
- 146           * 系统定时器中断函数
- 147           * */
- 148          void kernel_tick() interrupt 1
- 149          {        
- 150   1              TH0 = TH;
- 151   1              TL0 = TL;
- 152   1              if (!is_kernel())
- 153   1                      stack_bottom[current] = SP;
- 154   1              SP = os_sp;
- 155   1              set_os();
- 156   1      /* 清中断状态*/
- 157   1      #pragma ASM
- 158   1              call irq_back
- 159   1      #pragma ENDASM
- 160   1              decreas_sleep_time();
- 161   1              do_schedule();
- 162   1      
- 163   1      #pragma ASM
- 164   1      irq_back:
- 165   1              reti
- 166   1      #pragma ENDASM  
- 167   1      }
- 168          /**/
+ 117   4                              }                                
+ 118   3                              id = 0;
+ 119   3                              while (task_status[id] != 0) {
+ 120   4                                      id++;
+ 121   4                                      if (id == NR_TASK)
+ 122   4                                              goto retback;//return id;
+ 123   4                              }
+ 124   3                              break;
+ 125   3                      }
+ 126   2              }
+ 127   1      retback:
+ 128   1              return id;
+ 129   1      }
+ 130          
+ 131          /**
+ 132           * 任务休眠时间递减
+ 133           * */
+ 134          static void decreas_sleep_time()
+ 135          {
+ 136   1              u8 i = 0;
+ 137   1              for (; i < NR_TASK; i++) {
+ 138   2                      if (sleep_time[i] != 0) {
+ 139   3                              sleep_time[i]--;
+ 140   3                              if (sleep_time[i] == 0) {
+ 141   4                                      task_status[i] &= (~TASK_SLEEP);
+ 142   4      #if (SLEEPED_FIRST != 0)
+ 143   4                                      sleeped_task |= (1 << i);
+ 144   4      #endif // SLEEPED_FIRST
+ 145   4                              }
+ 146   3                      }
+ 147   2              }
+ 148   1      }
+ 149          
+ 150          /**
+ 151           * 系统定时器中断函数
+ 152           * */
+ 153          void kernel_tick() interrupt 1
+ 154          {        
+ 155   1              TH0 = TH;
+ 156   1              TL0 = TL;
+ 157   1              if (!is_kernel())
+ 158   1                      stack_bottom[current] = SP;
+ 159   1              SP = os_sp;
+ 160   1              set_os();
+ 161   1      /* 清中断状态*/
+ 162   1      #pragma ASM
+ 163   1              call irq_back
+ 164   1      #pragma ENDASM
+ 165   1              decreas_sleep_time();
+ 166   1              do_schedule();
+ 167   1      
+ 168   1      #pragma ASM
+ 169   1      irq_back:
+ 170   1              reti
+ 171   1      #pragma ENDASM  
+ 172   1      }
+ 173          /**/
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    390    ----
+   CODE SIZE        =    396    ----
    CONSTANT SIZE    =   ----    ----
+C51 COMPILER V9.00   KERNEL                                                                07/09/2011 17:21:27 PAGE 4   
+
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      4    ----
+   DATA SIZE        =      5    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
-C51 COMPILER V9.00   KERNEL                                                                07/05/2011 16:54:36 PAGE 4   
-
 END OF MODULE INFORMATION.
 
 

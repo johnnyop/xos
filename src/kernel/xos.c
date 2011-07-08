@@ -8,7 +8,18 @@
 u8 data current = 0; /*当前任务*/
 u8 data os_sp;
 u8 data _irq;
-
+/**
+ strcut task_desc {
+	_u8 stack_bottom;		// 堆栈底
+	_u8 id_timeslice;		// id 和 时间片
+	_u8 task_status;		// 状态
+	_u16 sleep_time;			// sleep 调用的睡眠时间. 单位为秒.
+	_u8	sem_count;		// 在等待信号量的个数.
+ }
+ 分开来定义变量比结构体处理的速度快
+ task_desc[id].sleep_time --> &task_desc + sizeof(struct task_desc) * id + 3
+ sleep_time[id] --> &sleep_time + id
+ */
 u8 data stack_bottom[NR_TASK];
 u8 data id_timeslice[NR_TASK];						   
 u8 data task_status[NR_TASK];
