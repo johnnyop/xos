@@ -5,3 +5,5 @@
 *.SRC
 *.__i
 *.hex
+*.lst
+/temp

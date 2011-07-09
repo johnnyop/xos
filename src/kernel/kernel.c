@@ -14,6 +14,7 @@
 
 #pragma ENDASM		
 /**/
+static unsigned char xpcon;
 void do_schedule()
 {
 	//_u8 id;
@@ -22,7 +23,9 @@ TRY_AGAIN:
 	if (find_next() == NR_TASK) {
 		SP = os_sp;
 		EA = 1;
-		PCON |= 1;	   
+		xpcon = PCON;
+		PCON |= 1;	 
+		PCON = xpcon;  
 		goto TRY_AGAIN;
 	}
 	//quit_os(id);	
@@ -86,6 +89,8 @@ u8 find_next()
 	if (id_timeslice[current] != 0)
 		id_timeslice[current]--;
 #if (SLEEPED_FIRST != 0)
+	//查找休眠时间结束的任务, sleeped_task每一位代表一个任务，
+	//任务休眠，则相应的sleeped_task位置位
 	if (sleeped_task != 0) {
 		for (id = 0; id < NR_TASK; id++) {
 			tmp = (1 << id);

@@ -18,7 +18,7 @@ void t1() { /**/
 		//sem_down(&sem);
 		//P0 = ~1;
 		sleep(HZ);
-		//SBUF = ++sb;
+		SBUF = ++sb;
 
 	} /**
 	 init_1602();
