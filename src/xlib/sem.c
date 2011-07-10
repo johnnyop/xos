@@ -1,5 +1,6 @@
-#include "sem.h"
 
+#include "sem.h"
+#ifdef SEMPHORE
 u8 data sem_count[NR_TASK];
 void sem_down(semphore *sem)
 {
@@ -63,3 +64,5 @@ void sem_up(semphore *sem, unsigned char n)
 	}
 	enable_irq_restore();
 }
+
+#endif //SEMPHORE

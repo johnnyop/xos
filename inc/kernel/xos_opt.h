@@ -13,8 +13,36 @@
 
 #define INCLUDE_MCU <reg52.h>
 
+
+/**
+ * 时间片,系统定时,时间点滴, 默认使用定时器0
+ * */				 
 /* 该系统运行的任务数,静态值. 最大为8, 不过因为系统性能,资源的问题,最好不超来6*/
-#define NR_TASK 4	
+#define NR_TASK 2	
+#define HZ 250		/* xos系统定时中断频率, 1秒使用时间片的次数*/
+#define TICK_TIME 4		/* 一个时间片的时间(单位ms, 则系统定时器定时时长)*/
+#define TIME_SLICE 15		/* 任务时间片, 不能大于15*/
+// 10ms , 24MHz, 1
+#define FOSC 11.0592	/* 晶振频率*/
+#define TH 0xF1		/* 系统定时器,计数器装载值*/
+#define TL 0xC0 							//DC 20
+/* 系统定时器用的计数器寄存器*/
+#define THN TH0
+#define TLN TL0
+
+
+/**若使用信号量则要定义这个宏*/
+//#define SEMPHORE	
+
+/**
+ * 设置任务调度时,是否首先运行休眠时间已到的任务.(sleep(n),n已到).
+ * 如果SLEEPED_FIRST 不等于0, 则设置
+ *
+ * 设置后,当一个任务的一个时间片用完后,如果有休眠时间已到,但未运行的任务,
+ * 则即使该任务还有时间片,还会让出CPU给休眠时间已到的的任务.
+ * 该设置是为了休眠时间精度更高.
+ * */
+#define SLEEPED_FIRST 5
 
 /**
  * 任务堆栈
@@ -49,31 +77,6 @@
 
 
 /**
- * 时间片,系统定时,时间点滴, 默认使用定时器0
- * */
-#define HZ 100		/* xos系统定时中断频率, 1秒使用时间片的次数*/
-#define TICK_TIME 10		/* 一个时间片的时间(单位ms, 则系统定时器定时时长)*/
-#define TIME_SLICE 5		/* 任务时间片, 不能大于15*/
-// 10ms , 24MHz, 1
-
-#define FOSC 24	/* 晶振频率*/
-#define TH 0xb1		/* 系统定时器,计数器装载值*/
-#define TL 0xf5 
-/* 系统定时器用的计数器寄存器*/
-#define THN TH0
-#define TLN TL0
-/**
- * 设置任务调度时,是否首先运行休眠时间已到的任务.(sleep(n),n已到).
- * 如果SLEEPED_FIRST 不等于0, 则设置
- *
- * 设置后,当一个任务的一个时间片用完后,如果有休眠时间已到,但未运行的任务,
- * 则即使该任务还有时间片,还会让出CPU给休眠时间已到的的任务.
- * 该设置是为了休眠时间精度更高.
- * */
-#define SLEEPED_FIRST 5
-
-
-/**
  * 下面是与内核有关的定义,,如果无修改内核,则无需更改
  * */
 
@@ -85,17 +88,20 @@
 #define NREG  8
 #define USEDREG 1
 
-/* 任务描述符各元素的内存偏移值*/
+/* 任务状态标志位*/
+#define TASK_SEM_WAIT 0x10
+#define TASK_SLEEP 0x20
+#define TASK_OVER 0x80
+
+
+/* 任务描述符各元素的内存偏移值,, 已不使用，不用结构体实现了*/
 #define STACT_BOTTOM 0
 #define ID_TIMESLICE 1
 #define TASK_STATUS	2
 #define SLEEP_TIME 3
 #define SEM_COUNT 5
 
-/* 任务状态标志位*/
-#define TASK_SEM_WAIT 0x10
-#define TASK_SLEEP 0x20
-#define TASK_OVER 0x80
+
 
 
 #endif /* XOS_OPT_H**/
