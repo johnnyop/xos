@@ -1,10 +1,10 @@
-C51 COMPILER V9.00   KERNEL                                                                07/09/2011 17:21:27 PAGE 1   
+C51 COMPILER V9.00   KERNEL                                                                07/30/2011 11:48:00 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE KERNEL
 NO OBJECT MODULE REQUESTED
-COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\kernel\kernel.c BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEBU
-                    -G OBJECTEXTEND PRINT(.\temp\kernel.lst) SRC(.\temp\kernel.SRC)
+COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\kernel\kernel.c OMF2 BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel)
+                    - DEBUG PRINT(.\temp\kernel.lst) SRC(.\temp\kernel.SRC)
 
 line level    source
 
@@ -13,7 +13,7 @@ line level    source
    3          
    4          #ifdef XOS_REENTRANT
    5          
-   6                  u8 data bp[NR_TASK];  
+   6                  u8_t data bp[NR_TASK];  
    7                  #pragma ASM
    8                          extrn data (?C_IBP)
    9                  #pragma ENDASM
@@ -24,7 +24,7 @@ line level    source
   14          
   15          #pragma ENDASM          
   16          /**/
-  17          static unsigned char xpcon;
+  17          unsigned char xpcon;
   18          void do_schedule()
   19          {
   20   1              //_u8 id;
@@ -34,8 +34,8 @@ line level    source
   24   2                      SP = os_sp;
   25   2                      EA = 1;
   26   2                      xpcon = PCON;
-  27   2                      PCON |= 1;       
-  28   2                      PCON = xpcon;  
+  27   2                      PCON |= 1;                      //休眠　
+  28   2                      PCON = xpcon;
   29   2                      goto TRY_AGAIN;
   30   2              }
   31   1              //quit_os(id);  
@@ -62,7 +62,7 @@ line level    source
   52   1      #pragma ENDASM
   53   1      
   54   1      #endif /* XOS_REENTRANT*/
-C51 COMPILER V9.00   KERNEL                                                                07/09/2011 17:21:27 PAGE 2   
+C51 COMPILER V9.00   KERNEL                                                                07/30/2011 11:48:00 PAGE 2   
 
   55   1      
   56   1              //current = find_next();
@@ -95,9 +95,9 @@ line level    source
   83          /**
   84           * 返回下一个要执行的任务, 如果返回NR_TASK则,全部都休眠或其它不能运行的状态.
   85           */
-  86          u8 find_next()
+  86          u8_t find_next()
   87          {
-  88   1              u8 id, tmp;
+  88   1              u8_t id, tmp;
   89   1              if (id_timeslice[current] != 0)
   90   1                      id_timeslice[current]--;
   91   1      #if (SLEEPED_FIRST != 0)
@@ -126,7 +126,7 @@ line level    source
  114   3                              for (id = 0; id < NR_TASK; id++) {
  115   4                                      id_timeslice[id] &= 0xf0;
  116   4                                      id_timeslice[id] += TIME_SLICE;
-C51 COMPILER V9.00   KERNEL                                                                07/09/2011 17:21:27 PAGE 3   
+C51 COMPILER V9.00   KERNEL                                                                07/30/2011 11:48:00 PAGE 3   
 
  117   4                              }                                
  118   3                              id = 0;
@@ -147,7 +147,7 @@ line level    source
  133           * */
  134          static void decreas_sleep_time()
  135          {
- 136   1              u8 i = 0;
+ 136   1              u8_t i = 0;
  137   1              for (; i < NR_TASK; i++) {
  138   2                      if (sleep_time[i] != 0) {
  139   3                              sleep_time[i]--;
@@ -166,8 +166,8 @@ line level    source
  152           * */
  153          void kernel_tick() interrupt 1
  154          {        
- 155   1              TH0 = TH;
- 156   1              TL0 = TL;
+ 155   1              THN = THX;
+ 156   1              TLN = TLX;
  157   1              if (!is_kernel())
  158   1                      stack_bottom[current] = SP;
  159   1              SP = os_sp;
@@ -190,13 +190,17 @@ line level    source
 MODULE INFORMATION:   STATIC OVERLAYABLE
    CODE SIZE        =    396    ----
    CONSTANT SIZE    =   ----    ----
-C51 COMPILER V9.00   KERNEL                                                                07/09/2011 17:21:27 PAGE 4   
+C51 COMPILER V9.00   KERNEL                                                                07/30/2011 11:48:00 PAGE 4   
 
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      5    ----
+   DATA SIZE        =      3    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
 
 

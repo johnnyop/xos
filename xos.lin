@@ -1,7 +1,9 @@
-
-PRINT(".\temp\xos.m51") RAMSIZE(256)
+//The PRINT directive specifies the name of the listing file. If no PRINT directive 
+//is specified the listing file is given the name of the generated object file with a .M51 extension.
+//PRINT(".\temp\xos.m51") RAMSIZE(256)
 //VERLAY (sem_try_down ! *)
 //NOOVERLAY
+//DISABLEWARNING 
 DW(16)
 
 

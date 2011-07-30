@@ -7,18 +7,18 @@
  * */
 #ifndef XOS_H
 #define XOS_H
-#include "def.h"
+#include "type.h"
 #include "xos_opt.h"
 #include <reg52.h>
 #include <intrins.h>
 
 
-extern u8 data current; 			/* 当前任务*/
-extern u8 data _irq;
-extern u8 data stack_bottom[NR_TASK];
-extern u8 data id_timeslice[NR_TASK];
-extern u8 data task_status[NR_TASK];
-extern u16 data sleep_time[NR_TASK];
+extern u8_t data current; 			/* 当前任务*/
+extern u8_t data _irq;
+extern u8_t data stack_bottom[NR_TASK];
+extern u8_t data id_timeslice[NR_TASK];
+extern u8_t data task_status[NR_TASK];
+extern u16_t data sleep_time[NR_TASK];
 //extern _u8 data sem_count[NR_TASK];
 /*
 typedef struct {
@@ -61,17 +61,17 @@ extern void schedule();
 #define set_os()   	(PCON |= 0x04)
 #define clr_os()	(PCON &= ~0x04)
 
-#define disable_tick() 	TR0 = 0
-#define enable_tick()	TR0 = 1
+#define disable_tick() 	TRN = 0
+#define enable_tick()	TRN = 1
 
 #define disable_irq()	do{\
 			EA = 0;	\
-			TR0	= 0;	\
+			TRN	= 0;	\
 		}while(0)
 
 #define enable_irq()do{	\
 			EA = 1;	\
-			TR0 = 1;	\
+			TRN = 1;	\
 		}while(0)
 
 #define disable_irq_save() do{ \
@@ -91,5 +91,7 @@ extern void schedule();
 			TR0 = 0;	\
 			   
 			   */
+
+#define rand()	TLN
 //#define 
 #endif /* XOS_H*/

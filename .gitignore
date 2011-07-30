@@ -6,4 +6,7 @@
 *.__i
 *.hex
 *.lst
+*.bak
+*.swp
+*.BAT
 /temp

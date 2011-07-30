@@ -3,7 +3,7 @@
 
 #ifdef XOS_REENTRANT
 
-	u8 data bp[NR_TASK];  
+	u8_t data bp[NR_TASK];  
 	#pragma ASM
 		extrn data (?C_IBP)
 	#pragma ENDASM
@@ -83,9 +83,9 @@ POPREGS:
 /**
  * 返回下一个要执行的任务, 如果返回NR_TASK则,全部都休眠或其它不能运行的状态.
  */
-u8 find_next()
+u8_t find_next()
 {
-	u8 id, tmp;
+	u8_t id, tmp;
 	if (id_timeslice[current] != 0)
 		id_timeslice[current]--;
 #if (SLEEPED_FIRST != 0)
@@ -133,7 +133,7 @@ retback:
  * */
 static void decreas_sleep_time()
 {
-	u8 i = 0;
+	u8_t i = 0;
 	for (; i < NR_TASK; i++) {
 		if (sleep_time[i] != 0) {
 			sleep_time[i]--;
@@ -152,8 +152,8 @@ static void decreas_sleep_time()
  * */
 void kernel_tick() interrupt 1
 {	 
-	TH0 = TH;
-	TL0 = TL;
+	THN = THX;
+	TLN = TLX;
 	if (!is_kernel())
 		stack_bottom[current] = SP;
 	SP = os_sp;

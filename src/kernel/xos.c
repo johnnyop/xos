@@ -5,23 +5,23 @@
 #include "kernel.h"
 #include INCLUDE_MCU
 
-u8 data current = 0; /*当前任务*/
-u8 data os_sp;
-u8 data _irq;
+u8_t data current = 0; /*当前任务*/
+u8_t data os_sp;
+u8_t data _irq;
 
-u8 data stack_bottom[NR_TASK];
-u8 data id_timeslice[NR_TASK];						   
-u8 data task_status[NR_TASK];
-u16 data sleep_time[NR_TASK];
+u8_t data stack_bottom[NR_TASK];
+u8_t data id_timeslice[NR_TASK];						   
+u8_t data task_status[NR_TASK];
+u16_t data sleep_time[NR_TASK];
 
 #if (SLEEPED_FIRST != 0)   
 	//sleeped_task每一位代表一个任务，
 	//任务休眠，则相应的sleeped_task位置位
-	u8 sleeped_task = 0;
+	u8_t sleeped_task = 0;
 #endif /* SLEEPED_FIRST*/	    
 
 #ifdef XOS_REENTRANT  
-	extern u8 data bp[NR_TASK]; 
+	extern u8_t data bp[NR_TASK]; 
 #pragma ASM		 
 	extrn data (?C_IBP)
 #pragma ENDASM
@@ -65,13 +65,13 @@ void xos_init()
 {
 	os_sp = SP;
 
-	TH0 = TH;
-	TL0 = TL;
+	THN = THX;
+	TLN = TLX;
 	TMOD = (TMOD & (~0x0f)) | 0x01;
 	IP = 0x02;
 	EA = 1;
-	TR0 = 1;
-	ET0 = 1;
+	TRN = 1;
+	ETN = 1;
 	current = 0;
 
 #ifdef CUSTOMIZE_STACK
@@ -97,8 +97,8 @@ void xos_init()
  * */
 void add_task(unsigned int func) 
 {	
-	u8 id = current;	 
-	u8 *p;
+	u8_t id = current;	 
+	u8_t *p;
 	
 	current++;
 	id_timeslice[id] = (id << 4) + TIME_SLICE;
@@ -106,7 +106,7 @@ void add_task(unsigned int func)
 #ifndef CUSTOMIZE_STACK
 	stack_bottom[id] = STACK_SZ * id + STACK_START + SAVE_REG + 1;
 #endif
-	p = (u8 *)(STACK_SZ * id + STACK_START);
+	p = (u8_t *)(STACK_SZ * id + STACK_START);
 	*p = (func & 0xff);
 	p++;
 	*p = (func >> 8); 
@@ -154,7 +154,7 @@ void schedule()
  * */
 void sleep(unsigned int n) 
 {	
-	u8 tmp;
+	u8_t tmp;
 #pragma ASM
 	push 	acc
 	PUSH 	B	   	
@@ -174,8 +174,8 @@ void sleep(unsigned int n)
 	SP = os_sp;
 	set_os();
 	/* 时间片已用超过一半*/
-	tmp = (0x100 - TH0);
-	if (tmp > ((0xff - TH) >> 1))
+	tmp = (0x100 - THN);
+	if (tmp > ((0xff - THX) >> 1))
 		n++;
 	sleep_time[current] = n;
 	tmp = 0;

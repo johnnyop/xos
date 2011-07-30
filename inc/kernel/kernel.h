@@ -7,9 +7,9 @@ extern unsigned char os_sp;
 #endif /* SLEEPED_FIRST*/	    
 
 extern void _pop_task();
-extern u8 find_next();
+extern u8_t find_next();
 extern void do_schedule();
 extern void decreas_sleep_time();  
-extern void pop_task(u8 id);
+extern void pop_task(u8_t id);
 
 #endif /* KERNEL_H*/

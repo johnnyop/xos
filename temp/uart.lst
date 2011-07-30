@@ -1,10 +1,10 @@
-C51 COMPILER V9.00   UART                                                                  07/09/2011 17:21:28 PAGE 1   
+C51 COMPILER V9.00   UART                                                                  07/29/2011 20:11:58 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE UART
 OBJECT MODULE PLACED IN .\temp\uart.obj
-COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\uart.c BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEBUG OBJECTE
-                    -XTEND PRINT(.\temp\uart.lst) OBJECT(.\temp\uart.obj)
+COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\uart.c OMF2 BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEBUG PR
+                    -INT(.\temp\uart.lst) OBJECT(.\temp\uart.obj)
 
 line level    source
 
@@ -24,46 +24,54 @@ line level    source
   14   1              TL1 = th; //波特率为9.6K
   15   1      
   16   1              SCON = 0x50; //工作方式1.允许接收.SM2=0;
-  17   1              PCON &= (0xef + smod);
-  18   1      
-  19   1              EA = 1; //全局中断开
-  20   1      
-  21   1              TR1 = 1; //启动定时器1
-  22   1              ES = 1; //允许串口中断
-  23   1      }
-  24          /**
-  25          void com_uart(void) interrupt 4
-  26          {
-  27                  uchar str;
-  28                  ES=0;
-  29                  /*                      接收数据中断                                            *
-  30                  if(RI)
-  31                  {
-  32                          str=SBUF;
-  33                          RI=0;
-  34                          P0=str;
-  35                  }
-  36                  /*          发送数据中断                        *
-  37                  if(TI)
-  38                  {
-  39                          TI=0;
-  40                  }
-  41                  ES=1;
-  42          }
-  43           * */
+  17   1              if (smod)
+  18   1                      PCON |= 0x80;
+  19   1              else
+  20   1                      PCON &= ~(0x80);
+  21   1      
+  22   1              EA = 1; //全局中断开
+  23   1      
+  24   1              TR1 = 1; //启动定时器1
+  25   1              ES = 1; //允许串口中断
+  26   1              PS = 1;
+  27   1      }
+  28          /**
+  29          void com_uart(void) interrupt 4
+  30          {
+  31                  uchar str;
+  32                  ES=0;
+  33                  /*                      接收数据中断                                            *
+  34                  if(RI)
+  35                  {
+  36                          str=SBUF;
+  37                          RI=0;
+  38                          P0=str;
+  39                  }
+  40                  /*          发送数据中断                        *
+  41                  if(TI)
+  42                  {
+  43                          TI=0;
+  44                  }
+  45                  ES=1;
+  46          }
+  47           * */
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     27    ----
+   CODE SIZE        =     35    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
+C51 COMPILER V9.00   UART                                                                  07/29/2011 20:11:58 PAGE 2   
+
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
-
-C51 COMPILER V9.00   UART                                                                  07/09/2011 17:21:28 PAGE 2   
 
 
 C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

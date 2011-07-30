@@ -11,6 +11,11 @@
  * 			->Assemble SRC File
  * */
 
+#define STC12C5A
+#define CPU_1T	1
+#define CPU_12T	12
+#define CPU_T	CPU_1T
+//#define CPU_12T
 #define INCLUDE_MCU <reg52.h>
 
 
@@ -23,12 +28,17 @@
 #define TICK_TIME 4		/* 一个时间片的时间(单位ms, 则系统定时器定时时长)*/
 #define TIME_SLICE 15		/* 任务时间片, 不能大于15*/
 // 10ms , 24MHz, 1
-#define FOSC 11.0592	/* 晶振频率*/
-#define TH 0xF1		/* 系统定时器,计数器装载值*/
-#define TL 0xC0 							//DC 20
+#define FOSC (11.0592)	/* 晶振频率*/
+#define VFOSC	(12)
+#define FOSC12	(1)
+#define THX 0xF1		/* 系统定时器,计数器装载值*/
+#define TLX 0xC0 							//DC 20
 /* 系统定时器用的计数器寄存器*/
 #define THN TH0
 #define TLN TL0
+#define TRN	TR0
+#define ETN	ET0
+
 
 
 /**若使用信号量则要定义这个宏*/

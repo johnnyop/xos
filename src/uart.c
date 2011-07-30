@@ -14,12 +14,16 @@ void init_uart(unsigned char th, unsigned char smod)
 	TL1 = th; //波特率为9.6K
 
 	SCON = 0x50; //工作方式1.允许接收.SM2=0;
-	PCON &= (0xef + smod);
+	if (smod)
+		PCON |= 0x80;
+	else
+		PCON &= ~(0x80);
 
 	EA = 1; //全局中断开
 
 	TR1 = 1; //启动定时器1
 	ES = 1; //允许串口中断
+	PS = 1;
 }
 /**
 void com_uart(void) interrupt 4

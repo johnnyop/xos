@@ -1,192 +1,676 @@
-C51 COMPILER V9.00   12864                                                                 01/21/2011 08:29:47 PAGE 1   
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE 12864
-OBJECT MODULE PLACED IN .\temp\12864.obj
-COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.exe src\12864.c BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEBUG OBJECT
-                    -EXTEND PRINT(.\temp\12864.lst) OBJECT(.\temp\12864.obj)
+NO OBJECT MODULE REQUESTED
+COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\12864.c OMF2 BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEBUG P
+                    -RINT(.\temp\12864.lst) SRC(.\temp\12864.SRC)
 
 line level    source
 
    1          /*****************************************************************************
-   2           /12864液晶驱动程序,
-   3           /
-   4           /*****************************************************************************/
+   2            /12864液晶驱动程序,
+   3            /
+   4          /*****************************************************************************/
    5          #include "12864.h"
    6          #include "xos.h"
-   7          #define C_BUSY_TIME 50
-   8          /*****************位定义*************************/
-   9          /*******************************************/
-  10          static void write_data(unsigned char dc, unsigned char dat); //写数据或命令
-  11          static unsigned char read_data(unsigned char b); //读数据或命令
-  12          static unsigned char chk_busy(); //检查忙状态
-  13          void init_12864(); //初始化12864LCD
-  14          void cls(); //全屏清屏
-  15          void print(unsigned int x, unsigned int y, unsigned char *chi, unsigned char n); //写汉字或字符
-*** WARNING C235 IN LINE 15 OF SRC\12864.C: parameter 1: different types
-*** WARNING C235 IN LINE 15 OF SRC\12864.C: parameter 2: different types
-*** WARNING C235 IN LINE 15 OF SRC\12864.C: parameter 3: different types
-*** WARNING C235 IN LINE 15 OF SRC\12864.C: parameter 4: different types
-  16          //void printsnake(unsigned int x,unit y,unsigned char color);           //蛇身结点显示
-  17          /*******************************************/
-  18          
-  19          /********************纳秒**************************       
-  20           void delay(unsigned int n)
-  21           {
-  22           int s;
-  23           for(;n>0;n--)
-  24           for(s=124;s>0;s--);
-  25           }
-  26           /*********************忙状态检测***************************/
-  27          static unsigned char chk_busy() {
-  28   1              unsigned char  busy;
-  29   1              unsigned char k;
-  30   1              en = 0;
-  31   1              for (k = 0; k < 2; k++) {
-  32   2                      rs = 0;
-  33   2                      rw = 1;
-  34   2                      en = 1;    
-  35   2                      data0 = 0xff;
-  36   2                      busy = (data0 & 0x80);
-  37   2                      en = 0;
-  38   2              }
-  39   1              return busy;
-  40   1      }
-  41          /********************写数据或指令(dc==1为数据)*********************/
-  42          static void write_data(unsigned char dc, unsigned char dat) {
-  43   1              //while(chk_busy()){;}
-  44   1              /**/
-  45   1              unsigned int i = C_BUSY_TIME;
-  46   1              while ((i-- == 0) && chk_busy())
-  47   1                      ;
-  48   1              /**/
-  49   1              rs = dc;
-  50   1              rw = 0;
-C51 COMPILER V9.00   12864                                                                 01/21/2011 08:29:47 PAGE 2   
+   7          #define DATA_PARALLEL   1
+   8          #define DATA_SERIAL             0
+   9          #define DATA_MODE       1       
+  10          #ifdef BOARD    
+              sbit RS=P2^2;
+              sbit RW=P2^1;
+              sbit EN=P2^0;
+              sbit RST=P3^1;
+              sbit PSB=P3^0;
+              sbit cbusy=P1^7;
+              #define data0 P1
+              
+              #else
+  20          sbit RS = P2 ^ 0;
+  21          sbit RW = P2 ^ 1;
+  22          sbit EN = P3 ^ 2;
+  23          sbit RST = P3 ^ 5;
+  24          sbit PSB = P3 ^ 3;
+  25          
+  26          sbit CS = P2^0;
+  27          sbit SID = P2^1;
+  28          sbit SCLK = P3^2;
+  29          
+  30          sbit cbusy = P0 ^ 7;
+  31          #define data0 P0
+  32          #endif /* BOARD */
+  33          
+  34          sbit ACC7 = ACC^7;
+  35          sbit ACC6 = ACC^6;
+  36          sbit ACC5 = ACC^5;
+  37          sbit ACC4 = ACC^4;
+  38          sbit ACC3 = ACC^3;
+  39          sbit ACC2 = ACC^2;
+  40          sbit ACC1 = ACC^1;
+  41          sbit ACC0 = ACC^0;
+  42          
+  43          #define RW_WR   0
+  44          #define RW_RD   1
+  45          #define RS_CMD  0
+  46          #define RS_DATA 1
+  47          #define SET_CS()        CS = 1
+  48          #define CLR_CS()        CS = 0
+  49          #define SET_CLKH()              SCLK = 1
+  50          #define SET_CLKL()              SCLK = 0
+  51          #define SET_WRITE()     SID = RW_WR
+  52          #define SET_READ()      SID = RW_RD
+  53          #define SET_CMD()       SID = RS_CMD
+  54          #define SET_DATA()      SID = RS_DATA
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 2   
 
-  51   1              en = 1;
-  52   1              _nop_();
-  53   1              data0 = dat;
-  54   1              en = 0;
-  55   1      }
-  56          /*******************读数据.状态.1为数据**************************************/
-  57          static unsigned char read_data(unsigned char b) {
-  58   1              unsigned char da;
-  59   1              unsigned int i = C_BUSY_TIME;
-  60   1              while ((i-- == 0) && chk_busy())
-  61   1                      ;
-  62   1              rs = b;
-  63   1              rw = 1;
-  64   1              en = 1;
-  65   1              data0 = 0xff;
-  66   1              da = P0;
-  67   1              en = 0;
-  68   1              return da;
-  69   1      }
-  70          /********************初始化LCD***************************************/
-  71          void init_12864() {
-  72   1              PSB = 1;
-  73   1              RST = 1;
-  74   1              sleep(HZ / 25);
-  75   1              EA = 0;
-  76   1              write_data(0, 0x30); //基本指令
-  77   1              _nop_();
-  78   1              write_data(0, 0x0c); //开显示
-  79   1              _nop_();
-  80   1              write_data(0, 0x01); //清屏
-  81   1              _nop_();
-  82   1              write_data(0, 0x06); //光标的移动方向
-  83   1              EA = 1;
-  84   1      }
-  85          
-  86          //清屏,全部为空
-  87          /*********************************************************
-  88           void cls()
-  89           {
-  90           unsigned char data i,j;
-  91           for(i=0;i<32;i++)
-  92           {
-  93           for(j=0;j<8;j++)
-  94           {
-  95           write_data(0,0x34);            //设置扩展功能指令,且为关绘画
-  96           write_data(0,0x80+i);          //写Y地址
-  97           write_data(0,0x80+j);          //写X地址
-  98           write_data(0,0x30);            //设置基本功能指令
-  99           write_data(1,0x00);     //连续写入两个8位数据.
- 100           write_data(1,0x00);
- 101           }
- 102           }
- 103           for(i=0;i<32;i++)
- 104           {
- 105           for(j=0;j<8;j++)
- 106           {
- 107           write_data(0,0x34);
- 108           write_data(0,0x80+i);
- 109           write_data(0,0x88+j);
- 110           write_data(0,0x30);
- 111           write_data(1,0x00);
- 112           write_data(1,0x00);
-C51 COMPILER V9.00   12864                                                                 01/21/2011 08:29:47 PAGE 3   
+  55          
+  56          /* Serial timing */
+  57          #if (CPU_T == CPU_1T)
+  58          
+  59          #define TCLK_WH(n)      \
+  60                  do {    \
+  61                          _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();        \
+  62                  } while (0)
+  63          #define TCLK_WL(n)      \
+  64                  do {    \
+  65                          _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();        \
+  66                  } while (0)
+  67          #define TCLK_SETUP(n)   \
+  68                  do {    \
+  69                          _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();        \
+  70                  } while (0)
+  71          #define TDATA_SETUP()   \
+  72                  do {    \
+  73                          _nop_();_nop_();        \
+  74                  } while (0)
+  75          #define TDATA_HOLD()    \
+  76                  do {    \
+  77                          _nop_();_nop_();   \
+  78                  } while (0)
+  79          
+  80          #else
+              
+              #define TCLK_WH()       \
+                      do {    \
+                              _nop_();        \
+                      } while (0)
+              #define TCLK_WL()       \
+                      do {    \
+                              _nop_();        \
+                      } while (0)
+              #define TCLK_SETUP()    \
+                      do {    \
+                              _nop_();        \
+                      } while (0)
+              #define TDATA_SETUP()   \
+                      do {    \
+                      } while (0)
+              #define TDATA_HOLD()    \
+                      do {    \
+                              _nop_();_nop_();  \
+                      } while (0)
+              
+              #endif /* CPU_T == CPU_1T */
+ 103          
+ 104          /* Serial macro */
+ 105          #define rise_clk_setup()        do {SET_CLKH(); TCLK_SETUP();} while (0)
+ 106          #define rise_clk_hold()         do {SET_CLKH(); TCLK_SETUP(); TCLK_WH();} while (0)
+ 107          #define rise_clk()                      SET_CLKH()
+ 108          #define set_slcd_sid(n)         SID = n
+ 109          #define set_slcd_data(n)        do {SID = n; TDATA_SETUP();} while (0)
+ 110          #define set_slcd_data_hold(n)   do {set_slcd_data(n); TDATA_HOLD();} while (0)
+ 111          #define get_slcd_sid()          SID
+ 112          #define fall_clk()                      SET_CLKL()
+ 113          #define fall_clk_hold()         do {fall_clk(); TCLK_WL(); } while (0)
+ 114          /*
+ 115          #define quit_serial(n)  \
+ 116                          syn_bit_str(n); \
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 3   
 
- 113           }
- 114           }
- 115           write_data(0,0x36);
- 116           }
- 117           /****************在X,Y处显示一个(16*16)汉字****************/
- 118          /*                              0<=x<8,0<=y<4                                           *******/
- 119          void print(unsigned char x, unsigned char y, unsigned char n, unsigned char *chi) {
- 120   1              INTO_IRQ();
- 121   1              switch (y) {
- 122   2              case 0:
- 123   2                      y = 0x80;
- 124   2                      break;
- 125   2              case 1:
- 126   2                      y = 0x90;
- 127   2                      break;
- 128   2              case 2:
- 129   2                      y = 0x88;
- 130   2                      break;
- 131   2              case 3:
- 132   2                      y = 0x98;
- 133   2                      break;
- 134   2              }
- 135   1              y += x; //计算要显示的液晶坐标
- 136   1              write_data(0, 0x30);
- 137   1              write_data(0, y);
- 138   1              if (n == 0)
- 139   1                      n = 16;
- 140   1              y = 0;
- 141   1              while (chi[y] != '\0' && n--) {
- 142   2                      write_data(1, chi[y]);
- 143   2                      y++;
- 144   2              }
- 145   1              QUIT_IRQ();
- 146   1      }
- 147          
- 148          void reverse(unsigned char line) {
- 149   1              INTO_IRQ();
- 150   1              write_data(CMD, 0x34);
- 151   1              write_data(CMD, 4 + line);
- 152   1              write_data(CMD, 0x30);
- 153   1              QUIT_IRQ();
- 154   1      }
- 155          
- 156          void clear_12864() {
- 157   1              INTO_IRQ();
- 158   1              write_data(0, 0x01); //清屏
- 159   1              QUIT_IRQ();
- 160   1      }
+ 117                          SID = 1;        \
+ 118                          CLR_CS();
+ 119          */
+ 120          #define write_serial_bit(n)     \
+ 121                  do {    \
+ 122                          fall_clk();     \
+ 123                          TCLK_SETUP();   \
+ 124                          set_slcd_sid(n);        \
+ 125                          TDATA_SETUP();  \
+ 126                          rise_clk();     \
+ 127                          TCLK_WH();      \
+ 128                  } while (0)
+ 129          #define read_serial_bit(n)      \
+ 130                  do {    \
+ 131                          fall_clk();     \
+ 132                          TCLK_SETUP();   \
+ 133                          TDATA_SETUP();  \
+ 134                          n = get_slcd_sid();     \
+ 135                          rise_clk();     \
+ 136                  } while (0)
+ 137          
+ 138          #define set_12864_rwrs(rw, rs)  \
+ 139                  do {    \
+ 140                          write_serial_bit(rw);   \
+ 141                          write_serial_bit(rs);   \
+ 142                  } while (0);
+ 143          #define write_serial_sam(t, n, b)       \
+ 144                          do {    \
+ 145                                  t = n;  \
+ 146                                  while (t){ \
+ 147                                          write_serial_bit(b);    \
+ 148                                          --t;    \
+ 149                                  }       \
+ 150                          } while (0)
+ 151          #define read_serial_dis(t, n)   \
+ 152                          do {    \
+ 153                                  t = n;  \
+ 154                                  while (t) {     \
+ 155                                          fall_clk();     \
+ 156                                          TCLK_SETUP();   \
+ 157                                          TDATA_SETUP();  \
+ 158                                          --t;    \
+ 159                                          rise_clk();     \
+ 160                                          TCLK_WH();      \
+ 161                                  }       \
+ 162                          } while (0)
+ 163          
+ 164          #if (DATA_MODE == DATA_SERIAL)
+              #define enter_serial(n, rw, rs) \
+                      do {    \
+                              SET_CS();       \
+                              SET_CLKH();     \
+                              write_serial_sam(n, 5, 1);      \
+                              set_12864_rwrs(rw, rs); \
+                              write_serial_bit(0);    \
+                      } while (0)
+              #define exit_serial()   CLR_CS()
+              #endif
+ 175          
+ 176          
+ 177          #if (DATA_MODE == DATA_SERIAL)
+              #else
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 4   
+
+ 179          
+ 180          #endif /* DATA_MODE == DATA_SERIAL */
+ 181          
+ 182          
+ 183          
+ 184                                                    
+ 185          #define LCD_DATA        1
+ 186          #define LCD_CMD         0
+ 187          #define CMD 0
+ 188          #define DATA 1
+ 189          #define disfiRSt        0xc0
+ 190          #define sety    0x80    //第一行.
+ 191          #define setx    0x80    //上半屏
+ 192          #define setxx   0x88    //下半屏
+ 193          #define C_BUSY_TIME 50
+ 194          /*                         
+ 195                                     TC System cycle time 13,000 ns
+ 196                                     TAS Address setup time 1500ns
+ 197                                     TR/TF Enable rise/fall time   25ns
+ 198                                     TDSW Data setup time 1,000ns 
+ 199                                     TH Data hold time 20ns 
+ 200                                     TPW Enable pulsewidth 1,500ns 
+ 201          
+ 202                                     Data setup time TDDR 1,000ns 
+ 203           **/
+ 204          #if (CPU_T == CPU_1T)
+ 205          #define TC(n)   \
+ 206                  do {  \
+ 207                          _nop_();_nop_();_nop_();_nop_();        \
+ 208                          _nop_();_nop_();_nop_(); \       
+ 209                          _nop_();_nop_();_nop_();_nop_();        \
+ 210                                  _nop_();_nop_();_nop_(); \
+ 211                                  _nop_();_nop_();_nop_();_nop_();        \
+ 212                                  _nop_();_nop_();_nop_(); \
+ 213                  }while(0)
+ 214          #define TAS(n)  do {_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); \
+ 215                  _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();}while(0)
+ 216          #define TR(n)
+ 217          #define TDSW(n) do {_nop_();_nop_();_nop_();_nop_();_nop_(); \
+ 218                  _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();}while(0)
+ 219          #define TH(n)   
+ 220          #define TPW(n)  do {_nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); \
+ 221                  _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); \
+ 222                  _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();_nop_(); }while(0)
+ 223          
+ 224          #define TDDR(n) do {_nop_();_nop_();_nop_();_nop_();_nop_(); \
+ 225                  _nop_();_nop_();_nop_(); \
+ 226                  _nop_();}while(0)
+ 227          #else
+              #define TC()    \
+                      do {  \
+                              _nop_();_nop_();_nop_();_nop_();        \
+                              _nop_();_nop_();_nop_(); \       
+                              _nop_();_nop_();_nop_();_nop_();        \
+                                      _nop_();_nop_();_nop_(); \
+                                      _nop_();_nop_();_nop_();_nop_();        \
+                                      _nop_();_nop_();_nop_(); \
+                      }while(0)
+              #define TAS(n)   _nop_()
+              #define TR(n)    
+              #define TDSW(n) do {_nop_();}while(0)
+              #define TH(n)   
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 5   
+
+              #define TPW(n)  do {_nop_();}while(0)   
+              
+              #define TDDR(n) do {_nop_();}while(0)
+              
+              
+              #endif /* STC12C5A*/
+ 247          /*****************位定义*************************/
+ 248          /*******************************************/
+ 249          static void write_data(register u8_t dc,register u8_t dat); //写数据或命令
+ 250          static unsigned char read_data(register u8_t b); //读数据或命令
+ 251          static unsigned char chk_busy(); //检查忙状态
+ 252          void init_12864(); //初始化12864LCD
+ 253          //void printsnake(unsigned int x,unit y,unsigned char color);           //蛇身结点显示
+ 254          /*******************************************/
+ 255          
+ 256          /********************写数据或指令(dc==1为数据)*********************/
+ 257          static void write_data(register u8_t dc,register u8_t dat) {
+ 258   1      #if (DATA_MODE == DATA_PARALLEL)
+ 259   1              register u8_t i = C_BUSY_TIME;
+ 260   1              while ((i != 0) && chk_busy())
+ 261   1                      --i;
+ 262   1              RS = dc;
+ 263   1              RW = 0; 
+ 264   1              TAS(i);
+ 265   1              EN = 1;   
+ 266   1              data0 = dat;
+ 267   1              TPW(i);
+ 268   1              TH(i);
+ 269   1              EN = 0;
+ 270   1      #else 
+                      register u8_t circle, i;
+                      /* first byte 11111AB0 */
+                      enter_serial(i, RW_WR, dc);
+                      circle = 0x80;
+                      /* high 4 bit DDDD0000*/
+                      /*
+                      while (circle != (1 << 3)) {
+                              write_serial_bit(circle & dat);
+                              circle >>= 1;
+                      }*/
+                      ACC = dat;
+                      write_serial_bit(ACC7);
+                      write_serial_bit(ACC6);
+                      write_serial_bit(ACC5);
+                      write_serial_bit(ACC4);
+                      write_serial_sam(i, 4, 0);
+                      /* low 4 bit 0000DDDD */
+                      write_serial_bit(ACC3);
+                      write_serial_bit(ACC2);
+                      write_serial_bit(ACC1);
+                      write_serial_bit(ACC0);
+              /*
+                      while (circle) {
+                              write_serial_bit(circle & dat);
+                              circle >>= 1;
+                      }*/
+                      write_serial_sam(i, 4, 0);
+                      exit_serial();
+              #endif 
+ 300   1      }
+ 301          /*******************读数据.状态.1为数据**************************************/
+ 302          static unsigned char read_data(register u8_t b) {
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 6   
+
+ 303   1      #if (DATA_MODE == DATA_PARALLEL)
+ 304   1              register u8_t da;
+ 305   1              register u8_t i = C_BUSY_TIME;
+ 306   1              while ((i != 0) && chk_busy())
+ 307   1                      --i;
+ 308   1              RS = b;
+ 309   1              RW = 1;         
+ 310   1              TAS(i);  
+ 311   1              data0 = 0xff;
+ 312   1              EN = 1;    
+ 313   1              TDDR(i);
+ 314   1              da = data0;
+ 315   1              TPW(i);
+ 316   1              TH(i);
+ 317   1              EN = 0;
+ 318   1              return da;
+ 319   1      #else 
+                      register u8_t dat;
+                      enter_serial(dat, RW_RD, b);
+                      dat = 0;
+                      b = 0;
+                      read_serial_bit(b);
+                      dat |= (b << 7);
+                      read_serial_bit(b);
+                      dat |= (b << 6);
+                      read_serial_bit(b);
+                      dat |= (b << 5);
+                      read_serial_bit(b);
+                      dat |= (b << 4);
+                      read_serial_dis(dat, 4);
+                      read_serial_bit(b);
+                      dat |= (b << 3);
+                      read_serial_bit(b);
+                      dat |= (b << 2);
+                      read_serial_bit(b);
+                      dat |= (b << 1);
+                      read_serial_bit(b);
+                      dat |= (b << 0);
+                      read_serial_dis(dat, 4);
+                      exit_serial();
+                      return dat;
+              #endif
+ 345   1      }
+ 346          /*********************忙状态检测***************************/
+ 347          static unsigned char chk_busy() {
+ 348   1      #if (DATA_MODE == DATA_PARALLEL)
+ 349   1              register unsigned char  busy;
+ 350   1              register unsigned char k;
+ 351   1              EN = 0;
+ 352   1              for (k = 0; k < 2; k++) {
+ 353   2                      RS = 0;
+ 354   2                      RW = 1;
+ 355   2                      TAS(busy);
+ 356   2                      data0 = 0xff;  
+ 357   2                      EN = 1;         
+ 358   2                      TR(busy);
+ 359   2                      busy = (data0 & 0x80);
+ 360   2                      TPW(busy);
+ 361   2                      EN = 0;
+ 362   2              }
+ 363   1              return busy;
+ 364   1      #else
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 7   
+
+                      register u8_t dat;
+                      enter_serial(dat, RW_RD, RS_CMD);
+                      dat = 0;
+                      read_serial_bit(dat);
+                      return (dat);
+              #endif
+ 371   1      }
+ 372          
+ 373          /********************初始化LCD***************************************/
+ 374          void init_12864() {
+ 375   1              PSB = DATA_MODE;
+ 376   1              RST = 1;
+ 377   1              sleep(HZ / 25);
+ 378   1              disable_irq();
+ 379   1              write_data(0, 0x30); //基本指令
+ 380   1              _nop_();
+ 381   1              write_data(0, 0x0c); //开显示
+ 382   1              _nop_();
+ 383   1              write_data(0, 0x01); //清屏
+ 384   1              _nop_();
+ 385   1              write_data(0, 0x06); //光标的移动方向
+ 386   1              enable_irq();
+ 387   1              
+ 388   1      }
+ 389          
+ 390          //清屏,全部为空
+ 391          /*********************************************************/
+ 392          void clear_lcd(void)
+ 393          {
+ 394   1              u8_t i,j;
+ 395   1              for(j=0;j<32;j++)
+ 396   1              {
+ 397   2                      for(i=0;i<8;i++)
+ 398   2                      {
+ 399   3                              write_data(0,0x34);
+ 400   3                              write_data(0,0x80+j);
+ 401   3                              write_data(0,0x80+i);
+ 402   3                              write_data(0,0x30);
+ 403   3                              write_data(1,0);
+ 404   3                              write_data(1,0);
+ 405   3      
+ 406   3                              
+ 407   3                              write_data(0,0x34);
+ 408   3                              write_data(0,0x80+j);
+ 409   3                              write_data(0,0x88+i);
+ 410   3                              write_data(0,0x30);       
+ 411   3                              write_data(1,0);
+ 412   3                              write_data(1,0);
+ 413   3                      }
+ 414   2              }
+ 415   1              write_data (0,0x36);
+ 416   1      }
+ 417          /****************在X,Y处显示一个(16*16)汉字****************/
+ 418          /*                              0<=x<8,0<=y<4                                           *******/
+ 419          #if DISPLAY_STR
+              void printstr(register u8_t x, register u8_t  y, register u8_t n, unsigned char *chi) { 
+                      disable_irq();
+                      switch (y) {
+                              case 0:
+                                      y = 0x80;
+                                      break;
+                              case 1:
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 8   
+
+                                      y = 0x90;
+                                      break;
+                              case 2:
+                                      y = 0x88;
+                                      break;
+                              case 3:
+                                      y = 0x98;
+                                      break;
+                      }
+                      y += x; //计算要显示的液晶坐标
+                      write_data(0, 0x30);
+                      write_data(0, y);
+                      if (n == 0)
+                              n = 16;
+                      y = 0;
+                      while (chi[y] != '\0' && n--) {
+                              write_data(1, chi[y]);
+                              y++;
+                      }
+                      write_data(RS_CMD, 0x34);
+                      enable_irq();
+              }
+              #endif /* DISPLAY_STR */
+ 450          void reverse(unsigned char line) {
+ 451   1              disable_irq();
+ 452   1              write_data(CMD, 0x34);
+ 453   1              write_data(CMD, 4 + line);
+ 454   1              write_data(CMD, 0x30);
+ 455   1              enable_irq();
+ 456   1      }
+ 457          
+ 458          void clear_12864() {
+ 459   1              disable_irq();
+ 460   1              write_data(0, 0x01); //清屏
+ 461   1              enable_irq();
+ 462   1      }
+ 463          
+ 464          /****************************************************
+ 465           ********************些文本主要在12864绘点.直线,
+ 466           ********************Horizontal/Vertical line
+ 467           ****************************************************/
+ 468          /********************************************/
+ 469          
+ 470          //void Hline(u8_t x,u8_t y,u8_t L);     //横直线函数,在(x,y)处开始,长度为L
+ 471          //void Vline(u8_t x,u8_t y,u8_t L);     //竖直线函数,在(x,y)处开始,长度为L
+ 472          /******************函数实现****************/
+ 473          /****************写点函数实现,在(x,y)坐标显示点*************/
+ 474          //b为设置画点还是清除点.1为画.0为清
+ 475          /***********************************************************/
+ 476          void draw_point(register u8_t  x,register u8_t  y,register u8_t  b)
+ 477          {
+ 478   1              u8_t xtemp= x & 0xf;
+ 479   1              u8_t ch1=0,ch2=0;
+ 480   1              u16_t ch=0;
+ 481   1              if(y<=31) {     //在上半屏
+ 482   2                      x=0x80+(x >> 4);
+ 483   2              } else {           //在下半屏
+ 484   2                      y=y-32;
+ 485   2                      x=0x88+(x >> 4);
+ 486   2              }
+ 487   1              disable_irq();
+ 488   1              write_data(0,y+0x80);
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 9   
+
+ 489   1              write_data(0,x);
+ 490   1      #if (DATA_MODE == DATA_PARALLEL)
+ 491   1              read_data(LCD_DATA);
+ 492   1      #endif
+ 493   1              ch1=read_data(LCD_DATA);                 //上八位
+ 494   1              ch2=read_data(LCD_DATA);                 //下八位
+ 495   1              ch=(ch1<<8)+ch2;
+ 496   1              if(b)                                   //处理是画还是清
+ 497   1                      ch|=(0x8000>>xtemp);
+ 498   1              else
+ 499   1                      ch&=(~(0x8000>>xtemp));
+ 500   1              //下面是绘画功能步骤            
+ 501   1              write_data(0,0x34);
+ 502   1              write_data(0,y+0x80);
+ 503   1              write_data(0,x);
+ 504   1              write_data(0,0x30);
+ 505   1              write_data(1,ch>>8);
+ 506   1              write_data(1,ch&0x00ff);
+ 507   1              write_data(0,0x36);     
+ 508   1              enable_irq();
+ 509   1      }
+ 510          /***************横直线函数,在(x,y)处开始,长度为L********************
+ 511          void draw_hline(register u8_t x, register u8_t y, register u8_t l)
+ 512          {
+ 513                  register u8_t i = 0;
+ 514                  while (i < l) {
+ 515                          draw_point(x + i, y, 1);        
+ 516                          ++i;
+ 517                  }               
+ 518          }
+ 519          
+ 520          /***************竖直线函数,在(x,y)处开始,长度为L********************
+ 521          void draw_vline(register u8_t x, register u8_t y, register u8_t l)
+ 522          {
+ 523                  register u8_t i=0;
+ 524                  while (i < l) {
+ 525                          draw_point(x,y+i,1);    
+ 526                          ++i;
+ 527                  }
+ 528          }
+ 529          /********************************************************************/
+ 530          //任意斜率,任意方向直线,坐标,从坐标(x1,y1)到(x2,y2),大小方向任意
+ 531          /********************************************************************/
+ 532          void draw_line(u8_t data x1, u8_t data y1,u8_t data x2,u8_t data y2, u8_t b)
+ 533          {
+ 534   1              u8_t idata temp,sx,sy,slope=0;
+ 535   1              register u8_t y = y1, x = x1,i = x1,j = 0, xx=0,yy=0;
+ 536   1              s8_t idata p;
+ 537   1              //XX,YY存放△X△Y,x,y存放直线坐标,sx,sy存放是加一还是减一,
+ 538   1              //slope表示是否斜率大于1.i,j用来计循环次数
+ 539   1              if(x2>x1)
+ 540   1                      xx=x2-x1;
+ 541   1              else
+ 542   1                      xx=x1-x2;
+ 543   1              if(y2>y1)
+ 544   1                      yy=y2-y1;               
+ 545   1              else
+ 546   1                      yy=y1-y2;
+ 547   1              j=x2;                   //初始认为计到x2处/
+ 548   1      
+ 549   1              if(yy <= xx){           //斜率小于1则X步进.大于1则Y步进
+ 550   2                      i=x1; j=x2;
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 10  
+
+ 551   2              } else {
+ 552   2                      i=y1; j=y2;
+ 553   2              }
+ 554   1      
+ 555   1              if(yy>xx) {             //判断斜率大于1,大于1则步进Y,小于1则步进X
+ 556   2                      temp=xx;                //
+ 557   2                      xx=yy;          //
+ 558   2                      yy=temp;                //xx.yy对掉
+ 559   2                      slope=1;                //
+ 560   2              }
+ 561   1      
+ 562   1              if(y2>y1)                       //计算直线是向下还是向上
+ 563   1                      sy=1;           //递增
+ 564   1              else
+ 565   1                      sy=-1;          //递减
+ 566   1      
+ 567   1              if(x2>x1)                       //计算直线是向左还是向右
+ 568   1                      sx=1;           //递增
+ 569   1              else
+ 570   1                      sx=-1;          //递减
+ 571   1              p = (yy << 1) - xx;             //初始P,用来计应该显示偏上还是偏下
+ 572   1      
+ 573   1              if(i>j) {               //改正i,j的大小
+ 574   2                      temp=i;
+ 575   2                      i=j;
+ 576   2                      j=temp;
+ 577   2              }
+ 578   1      
+ 579   1              while (i <= j){
+ 580   2                      draw_point(x,y,b);              //显示点
+ 581   2                      if(p>=0) {
+ 582   3                              if(!slope)                      //斜率小于1的情况.
+ 583   3                                      y+=sy;
+ 584   3                              else
+ 585   3                                      x+=sx;          //斜率大于1
+ 586   3                              p = p - (xx << 1);                      //大的步进
+ 587   3                      }
+ 588   2                      if(slope)                               //步进运算
+ 589   2                              y+=sy;
+ 590   2                      else
+ 591   2                              x+=sx;
+ 592   2                      p = p + (yy << 1);
+ 593   2                      ++i;
+ 594   2              }
+ 595   1      }
+ 596          
+ 597          #if SHOW_PIC
+              void pps(u8_t *img)
+              {
+              
+                      u8_t i,j;
+                      for(j=0;j<32;j++)
+                      {
+                              for(i=0;i<8;i++)
+                              {
+                                      write_data(0,0x34);
+                                      write_data(0,0x80+j);
+                                      write_data(0,0x80+i);
+                                      write_data(0,0x30);
+                                      write_data(1,img[j*16+i*2]);
+                                      write_data(1,img[j*16+i*2+1]);
+                              }
+C51 COMPILER V9.00   12864                                                                 07/30/2011 11:47:59 PAGE 11  
+
+                      }
+                      for(j=32;j<64;j++)
+                      {
+                              for(i=0;i<8;i++)
+                              {
+                                      write_data(0,0x34);
+                                      write_data(0,0x80+j-32);
+                                      write_data(0,0x88+i);
+                                      write_data(0,0x30);
+                                      write_data(1,img[j*16+i*2]);
+                                      write_data(1,img[j*16+i*2+1]);
+                              }
+                      }
+                      write_data (0,0x36);
+              }
+              #endif
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    299    ----
+   CODE SIZE        =    862    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       6
-   IDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      26
+   IDATA SIZE       =   ----       5
    BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  4 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
