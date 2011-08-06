@@ -2,9 +2,28 @@
 #define _12864_H_
 
 #include <intrins.h>
-#include <reg52.h>
 #include "type.h"
 //#define _nop_() ;
+#define RW_WR	0
+#define RW_RD	1
+#define RS_CMD	0
+#define RS_DATA	1
+
+#define CN_LINE0	0x80
+#define CN_LINE1	0x90
+#define CN_LINE2	0x88
+#define CN_LINE3	0x98
+
+#define UPPER_HALF	0x80
+#define LOWER_HALF	0x88
+
+
+#define CMD_CGRAM(n)	(0x80 + (n))
+#define CMD_BASE		(0x30)
+#define CMD_BASE_G		(0x32)
+#define CMD_EXT			(0x34)
+#define CMD_EXT_G		(0x36)
+
 #define SHOW_PIC	0
 #define DISPLAY_STR	0
 /************************º¯ÊýÉùÃ÷******************************/

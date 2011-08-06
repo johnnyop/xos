@@ -1,11 +1,13 @@
-".\temp\STARTUP.obj",
-".\temp\sem.obj",
 ".\temp\test.obj",
-".\temp\uart.obj",
-".\temp\12864.obj",
 ".\temp\xos.obj",
 ".\temp\kernel.obj",
-".\temp\xlib.obj" 
+".\temp\sem.obj",
+".\temp\STARTUP.obj",
+".\temp\xlib.obj",
+".\temp\1602.obj",
+".\temp\12864.obj",
+".\temp\stcad.obj",
+".\temp\uart.obj" 
 TO ".\temp\xos"
 //The PRINT directive specifies the name of the listing file. If no PRINT directive 
 //is specified the listing file is given the name of the generated object file with a .M51 extension.

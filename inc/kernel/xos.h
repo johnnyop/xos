@@ -9,17 +9,31 @@
 #define XOS_H
 #include "type.h"
 #include "xos_opt.h"
-#include <reg52.h>
+#include MCU_H
 #include <intrins.h>
 
 
+/* 任务描述符各元素的内存偏移值,, 已不使用，不用结构体实现了*/
+#define STACT_BOTTOM 0
+#define ID_TIMESLICE 1
+#define TASK_STATUS	2
+#define SLEEP_TIME 3
+#define SEM_COUNT 5
 extern u8_t data current; 			/* 当前任务*/
-extern u8_t data _irq;
+//extern u8_t data _irq;
 extern u8_t data stack_bottom[NR_TASK];
 extern u8_t data id_timeslice[NR_TASK];
 extern u8_t data task_status[NR_TASK];
 extern u16_t data sleep_time[NR_TASK];
 //extern _u8 data sem_count[NR_TASK];
+
+/* 任务状态标志位*/
+/** 任务等待信号量 */
+#define TASK_SEM_WAIT (1 << 4)
+/** 任务睡眠中 */
+#define TASK_SLEEP (1 << 5)
+/** 任务结束，不再运行 */
+#define TASK_OVER (1 << 7)
 /*
 typedef struct {
 	u8 stack_bottom;		// 堆栈底
@@ -46,16 +60,7 @@ extern void add_task(unsigned int func);
 extern void xos_init();
 
 /* 下面的函数会进入内核, 任务寄存器入栈*/
-/**
- * 任务休眠
- * n: 休眠的时间, 单位为HZ,则系统时间片的时间. 如果为HZ(宏)则1秒,
- * 		如果为0, 则任务不再工作.
- * PS: 任务主函数如果不是死循环工作,那么最后应该调用sleep(0),让任务不再工作.否则系统跑飞
- * */
 extern void sleep(unsigned int n);
-/**
- * 进行任务调度, 任务让出CPU, 让出一个任务运行. time slice 时间片清0
- * */
 extern void schedule();
 #define is_kernel() (PCON &= 0x04)
 #define set_os()   	(PCON |= 0x04)
@@ -81,16 +86,6 @@ extern void schedule();
 #define enable_irq_restore() do {\
 			EA = 1;				 \
 		}while(0)
-
-			   /**
-			   
-			_irq = IE;	\
-			TR0 = 0;	\  
-
-			IE = _irq;	\
-			TR0 = 0;	\
-			   
-			   */
 
 #define rand()	TLN
 //#define 

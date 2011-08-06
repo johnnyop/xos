@@ -1,123 +1,141 @@
-C51 COMPILER V9.00   1602                                                                  01/21/2011 09:28:54 PAGE 1   
+C51 COMPILER V9.00   1602                                                                  08/06/2011 14:51:00 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE 1602
-NO OBJECT MODULE REQUESTED
-COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.exe src\1602.c BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEBUG OBJECTE
-                    -XTEND PRINT(.\temp\1602.lst) SRC(.\temp\1602.SRC)
+OBJECT MODULE PLACED IN .\temp\1602.obj
+COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\xlib\1602.c OMF2 BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEB
+                    -UG PRINT(.\temp\1602.lst) OBJECT(.\temp\1602.obj)
 
 line level    source
 
    1          #include <intrins.h>
-   2          #include <reg52.h>
-   3          #include "xos.h"
-   4          #include "1602.h"
-   5          
-   6          #define BUSY_TIME 100
-   7          //----------------------------------------------定义引脚
-   8          static void write_1602(unsigned char da, unsigned char cmd);
-   9          static unsigned char check_busy(void) ;
-  10          
-  11          #define writedata(da)   write_1602(da, 1)
-  12          #define writecmd(da)    write_1602(da, 0)
-  13          static unsigned char check_busy(void) //检测LCD状态，看它是不是还在忙呢
-  14          {
-  15   1              unsigned char busy;
-  16   1              en = 0;
-  17   1              rs = 0;
-  18   1              rw = 1;
-  19   1              _nop_();
-  20   1              en = 1;
-  21   1              _nop_();
-  22   1              busy = L_data & 0x80;
-  23   1              _nop_();
-  24   1              en = 0;
-  25   1              return busy;
-  26   1      }
-  27          //----------------------------------------------------写入数据
-  28          static void write_1602(unsigned char da, unsigned char cmd) {
-  29   1              unsigned int i = BUSY_TIME;
-  30   1              while (check_busy() || (i-- == 0))
-  31   1                      ; //等待LCD忙完,,..
-  32   1              en = 0;
-  33   1              rs = cmd;
-  34   1              rw = 0;
-  35   1              L_data = da;
-  36   1              _nop_();
-  37   1              en = 1;
-  38   1              _nop_();
-  39   1      #if CRYSTAL_1602 > 12
-  40   1              _nop_();
-  41   1      #endif
-  42   1              en = 0;
-  43   1      }
-  44          //----------------------------------------------------指定位置显示一个字符
-  45          /***************************指定位置显示一个字符************************************/
-  46          void printc(unsigned char x, unsigned char y, unsigned char dat) {
-  47   1              disable_irq();
-  48   1              if (y > 2 || x > 39)
-  49   1                      return; //防止位置超了
-  50   1              if (y == 0) //
-  51   1                      x = 0x80 + x; //计算坐标
-  52   1              else
-  53   1                      //
-  54   1                      x = 0xc0 + x;
-C51 COMPILER V9.00   1602                                                                  01/21/2011 09:28:54 PAGE 2   
+   2          #include "xos.h"
+   3          #include "1602.h"
+   4          
+   5          #define BUSY_TIME 100 
+   6          #define OTHERS_BOARD
+   7          /**/
+   8          #ifndef OTHERS_BOARD
+                      #define L_data P0
+                      sbit rs_1602=P3^0;
+                      sbit rw_1602=P3^1;
+                      sbit en_1602=P3^2;
+              #else
+  14                  #define L_data P2
+  15                  sbit rs_1602=P1^2;
+  16                  sbit rw_1602=P1^1;
+  17                  sbit en_1602=P1^0;
+  18          #endif
+  19          //----------------------------------------------定义引脚
+  20          static void write_1602(unsigned char da, unsigned char cmd);
+  21          static unsigned char check_busy(void) ;
+  22          
+  23          #define writedata(da)   write_1602(da, 1)
+  24          #define writecmd(da)    write_1602(da, 0)
+  25          static unsigned char check_busy(void) //检测LCD状态，看它是不是还在忙呢
+  26          {
+  27   1              unsigned char busy;
+  28   1              en_1602 = 0;
+  29   1              rs_1602 = 0;
+  30   1              rw_1602 = 1;
+  31   1              _nop_();
+  32   1              en_1602 = 1;
+  33   1              _nop_();
+  34   1              busy = L_data & 0x80;
+  35   1              _nop_();
+  36   1              en_1602 = 0;
+  37   1              return busy;
+  38   1      }
+  39          //----------------------------------------------------写入数据
+  40          static void write_1602(unsigned char da, unsigned char cmd) {
+  41   1              unsigned int i = BUSY_TIME;
+  42   1              while (check_busy() || (i-- == 0))
+  43   1                      ; //等待LCD忙完,,..
+  44   1              en_1602 = 0;
+  45   1              rs_1602 = cmd;
+  46   1              rw_1602 = 0;
+  47   1              L_data = da;
+  48   1              _nop_();
+  49   1              en_1602 = 1;
+  50   1              _nop_();
+  51   1      #if CRYSTAL_1602 > 12
+  52   1              _nop_();
+  53   1      #endif
+  54   1              en_1602 = 0;
+C51 COMPILER V9.00   1602                                                                  08/06/2011 14:51:00 PAGE 2   
 
-  55   1              writecmd(x);
-  56   1              writedata(dat);
-  57   1              enable_irq();
-  58   1      }
-  59          /****************************************************************************/
-  60          //-------------------------------------------------------指定位置显示一串字符
-  61          void prints(unsigned char x, unsigned char y, unsigned char *dat) {
-  62   1              disable_irq();
-  63   1              if (y > 2 || x > 39)
-  64   1                      return; //防止位置超了
-  65   1              if (y != 0)
-  66   1                      x += 0x40;
-  67   1              x += 0x80; //计算坐标
-  68   1              y = 0;
-  69   1              while (dat[y] != '\0') {
-  70   2                      writecmd(x);
-  71   2                      writedata(dat[y]);
-  72   2                      x++;
-  73   2                      y++;
-  74   2              }
-  75   1              EA = 1;
-  76   1              enable_irq();
-  77   1      }
-  78          //---------------------------------------------------初始化LCD
-  79          void init_1602() {
-  80   1              sleep(HZ / 100); //
-  81   1              EA = 0;
-  82   1              writecmd(0x38); //
-  83   1              EA = 1;
-  84   1              sleep(HZ / 100); //三次模式显示设置
-  85   1              EA = 0;
-  86   1              writecmd(0x38); //
+  55   1      }
+  56          //----------------------------------------------------指定位置显示一个字符
+  57          /***************************指定位置显示一个字符************************************/
+  58          void printc(unsigned char x, unsigned char y, unsigned char dat) {
+  59   1              disable_irq_save();
+  60   1              if (y > 2 || x > 39)
+  61   1                      return; //防止位置超了
+  62   1              if (y == 0) //
+  63   1                      x = 0x80 + x; //计算坐标
+  64   1              else
+  65   1                      //
+  66   1                      x = 0xc0 + x;
+  67   1              writecmd(x);
+  68   1              writedata(dat);
+  69   1              enable_irq_restore();
+  70   1      }
+  71          /****************************************************************************/
+  72          //-------------------------------------------------------指定位置显示一串字符
+  73          void prints(unsigned char x, unsigned char y, unsigned char *dat) {
+  74   1              disable_irq_save();
+  75   1              if (y > 2 || x > 39)
+  76   1                      return; //防止位置超了
+  77   1              if (y != 0)
+  78   1                      x += 0x40;
+  79   1              x += 0x80; //计算坐标
+  80   1              y = 0;
+  81   1              while (dat[y] != '\0') {
+  82   2                      writecmd(x);
+  83   2                      writedata(dat[y]);
+  84   2                      x++;
+  85   2                      y++;
+  86   2              }
   87   1              EA = 1;
-  88   1              sleep(HZ / 100); //
-  89   1              disable_irq();
-  90   1              writecmd(0x38); //
-  91   1              writecmd(0x38);
-  92   1              writecmd(0x08); //关闭显示
-  93   1              writecmd(0x06); //显示光标移动设置
-  94   1              writecmd(0x0c); //开屏开及光标加设置
-  95   1              enable_irq();
-  96   1      }
-  97          
-  98          
+  88   1              enable_irq_restore();
+  89   1      }
+  90          //---------------------------------------------------初始化LCD
+  91          void init_1602() {
+  92   1              sleep(HZ / 100); //
+  93   1              EA = 0;
+  94   1              writecmd(0x38); //
+  95   1              EA = 1;
+  96   1              sleep(HZ / 100); //三次模式显示设置
+  97   1              EA = 0;
+  98   1              writecmd(0x38); //
+  99   1              EA = 1;
+ 100   1              sleep(HZ / 100); //
+ 101   1              disable_irq_save();
+ 102   1              writecmd(0x38); //
+ 103   1              writecmd(0x38);
+ 104   1              writecmd(0x08); //关闭显示
+ 105   1              writecmd(0x06); //显示光标移动设置
+ 106   1              writecmd(0x0c); //开屏开及光标加设置
+ 107   1              enable_irq_restore();
+ 108   1      }
+ 109          
+ 110          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    277    ----
+   CODE SIZE        =    263    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
+C51 COMPILER V9.00   1602                                                                  08/06/2011 14:51:00 PAGE 3   
+
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----       4
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
 END OF MODULE INFORMATION.
 
 

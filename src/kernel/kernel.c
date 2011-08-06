@@ -1,20 +1,33 @@
+/*! 
+ * \file kernel.c
+ * \brief 内核处理, 任务调度, 时间片和睡眠处理,
+ * @author xjf cexowginui@163.com
+ */
 #include "xos.h"
 #include "kernel.h"
 
 #ifdef XOS_REENTRANT
 
+	/* 任务栈底指针 */
 	u8_t data bp[NR_TASK];  
 	#pragma ASM
-		extrn data (?C_IBP)
+		extrn data (?C_IBP) /*  */
 	#pragma ENDASM
 
 #endif 
-/**
+/*
 #pragma ASM
 
 #pragma ENDASM		
-/**/
-unsigned char xpcon;
+*/
+/**
+ * 
+ */
+unsigned char xpcon;	/* 休眠时,PCON会复位,所以要保存 */
+/**
+ * 任务调试, 找出空闲且有时间片的任务运行,没有可运行的任务则<br>
+ * 进入休眠状态,直到下一个时间片到来或其它中断.
+ */
 void do_schedule()
 {
 	//_u8 id;
@@ -81,7 +94,8 @@ POPREGS:
 
 
 /**
- * 返回下一个要执行的任务, 如果返回NR_TASK则,全部都休眠或其它不能运行的状态.
+ * 查找下一个将要执行的任务
+ * @return下一个要执行的任务, 如果返回NR_TASK,则全部都休眠或其它不能运行的状态.
  */
 u8_t find_next()
 {
@@ -148,7 +162,10 @@ static void decreas_sleep_time()
 }
 
 /**
- * 系统定时器中断函数
+ * 系统定时器中断函数<br>
+ * 用了定时器1, 处理任务事件,调度
+ * @see do_schedule()
+ * @see find_next()
  * */
 void kernel_tick() interrupt 1
 {	 

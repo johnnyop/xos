@@ -1,4 +1,4 @@
-#include <reg52.h>			
+	
 //#define C_BP ?C_IBP
 #include "xos.h"
 void do_stuff(unsigned char u)	reentrant

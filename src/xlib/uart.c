@@ -6,7 +6,7 @@
  * 8bit数据,无奇偶校验,1停止位
  * */
 #include "uart.h"
-#include <reg52.h>
+#include "xos.h"
 void init_uart(unsigned char th, unsigned char smod)
 {
 	TMOD = (TMOD & ~0xf0) | 0x20; //定时器1.工作方式2

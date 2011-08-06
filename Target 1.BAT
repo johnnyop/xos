@@ -9,6 +9,8 @@ SET CPU_XTAL=0x00B71B00
 "G:\Keil 4 C51\C51\BIN\C51.EXE" @.\temp\test.__i
 "G:\Keil 4 C51\C51\BIN\C51.EXE" @.\temp\uart.__i
 "G:\Keil 4 C51\C51\BIN\C51.EXE" @.\temp\12864.__i
+"G:\Keil 4 C51\C51\BIN\A51.EXE" @.\temp\12864._ia
+"G:\Keil 4 C51\C51\BIN\C51.EXE" @.\temp\stcad.__i
 "G:\Keil 4 C51\C51\BIN\C51.EXE" @.\temp\xos.__i
 "G:\Keil 4 C51\C51\BIN\A51.EXE" @.\temp\xos._ia
 "G:\Keil 4 C51\C51\BIN\C51.EXE" @.\temp\kernel.__i
@@ -16,4 +18,3 @@ SET CPU_XTAL=0x00B71B00
 "G:\Keil 4 C51\C51\BIN\C51.EXE" @.\temp\xlib.__i
 "G:\Keil 4 C51\C51\BIN\A51.EXE" @.\temp\xlib._ia
 "G:\Keil 4 C51\C51\BIN\LX51.EXE" @.\temp\xos.lnp
-"G:\Keil 4 C51\C51\BIN\OHX51.EXE" ".\temp\xos" HEX

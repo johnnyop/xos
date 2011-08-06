@@ -20,19 +20,6 @@
 #ifndef _1602_H
 #define _1602_H
 /**/
-#define OTHERS_BOARD
-/**/
-#ifndef OTHERS_BOARD
-	#define L_data P0
-	sbit rs=P3^0;
-	sbit rw=P3^1;
-	sbit en=P3^2;
-#else
-	#define L_data P2
-	sbit rs=P1^2;
-	sbit rw=P1^1;
-	sbit en=P1^0;
-#endif
 
 #define LINE_0		0x80
 #define LINE_1		0xc0

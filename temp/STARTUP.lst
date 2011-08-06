@@ -1,10 +1,10 @@
-A51 MACRO ASSEMBLER  STARTUP                                                              07/29/2011 17:06:54 PAGE     1
+A51 MACRO ASSEMBLER  STARTUP                                                              08/06/2011 14:48:02 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.01
 OBJECT MODULE PLACED IN .\temp\STARTUP.obj
-ASSEMBLER INVOKED BY: G:\Keil 4 C51\C51\BIN\A51.EXE src\STARTUP.A51 INCDIR(.\inc) SET(SMALL) DEBUG PRINT(.\temp\STARTUP.
-                      lst) OBJECT(.\temp\STARTUP.obj) EP
+ASSEMBLER INVOKED BY: G:\Keil 4 C51\C51\BIN\A51.EXE src\kernel\STARTUP.A51 INCDIR(.\inc) SET(SMALL) DEBUG PRINT(.\temp\S
+                      TARTUP.lst) OBJECT(.\temp\STARTUP.obj) EP
 
 LOC  OBJ            LINE     SOURCE
 
@@ -45,7 +45,7 @@ LOC  OBJ            LINE     SOURCE
                       35     ;
                       36     ; <o> XDATALEN: XDATA memory size <0x0-0xFFFF> 
                       37     ;     <i> The length of XDATA memory in bytes.
-  0080                38     XDATALEN        EQU     128      
+  0400                38     XDATALEN        EQU     1024      
                       39     ;
                       40     ; <o> PDATASTART: PDATA memory start address <0x0-0xFFFF> 
                       41     ;     <i> The absolute start address of PDATA memory
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
                       55     ;
                       56     ; <h> Stack Space for reentrant functions in the SMALL model.
                       57     ;  <q> IBPSTACK: Enable SMALL model reentrant stack
-A51 MACRO ASSEMBLER  STARTUP                                                              07/29/2011 17:06:54 PAGE     2
+A51 MACRO ASSEMBLER  STARTUP                                                              08/06/2011 14:48:02 PAGE     2
 
                       58     ;     <i> Stack space for reentrant functions in the SMALL model.
   0001                59     IBPSTACK        EQU     1       ; set to 1 if small reentrant is used.
@@ -133,7 +133,7 @@ LOC  OBJ            LINE     SOURCE
                      121     
                      122                     EXTRN CODE (?C_START)
                      123                     PUBLIC  ?C_STARTUP
-A51 MACRO ASSEMBLER  STARTUP                                                              07/29/2011 17:06:54 PAGE     3
+A51 MACRO ASSEMBLER  STARTUP                                                              08/06/2011 14:48:02 PAGE     3
 
                      124     
 ----                 125                     CSEG    AT      0
@@ -152,12 +152,12 @@ LOC  OBJ            LINE     SOURCE
                      138     
                      139     IF XDATALEN <> 0
 0006 900080          140                     MOV     DPTR,#XDATASTART
-0009 7F80            141                     MOV     R7,#LOW (XDATALEN)
+0009 7F00            141                     MOV     R7,#LOW (XDATALEN)
                      142       IF (LOW (XDATALEN)) <> 0
-000B 7E01            143                     MOV     R6,#(HIGH (XDATALEN)) +1
-                     144       ELSE
-                                             MOV     R6,#HIGH (XDATALEN)
-                               ENDIF
+                                             MOV     R6,#(HIGH (XDATALEN)) +1
+                               ELSE
+000B 7E04            145                     MOV     R6,#HIGH (XDATALEN)
+                     146       ENDIF
 000D E4              147                     CLR     A
 000E F0              148     XDATALOOP:      MOVX    @DPTR,A
 000F A3              149                     INC     DPTR
@@ -201,7 +201,7 @@ LOC  OBJ            LINE     SOURCE
                      187     
                      188     ; This code is required if you use L51_BANK.A51 with Banking Mode 4
                      189     ;<h> Code Banking
-A51 MACRO ASSEMBLER  STARTUP                                                              07/29/2011 17:06:54 PAGE     4
+A51 MACRO ASSEMBLER  STARTUP                                                              08/06/2011 14:48:02 PAGE     4
 
                      190     ; <q> Select Bank 0 for L51_BANK.A51 Mode 4
                      191     
@@ -213,7 +213,7 @@ LOC  OBJ            LINE     SOURCE
 0025 020000   F      197                     LJMP    ?C_START
                      198     
                      199                     END
-A51 MACRO ASSEMBLER  STARTUP                                                              07/29/2011 17:06:54 PAGE     5
+A51 MACRO ASSEMBLER  STARTUP                                                              08/06/2011 14:48:02 PAGE     5
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -246,7 +246,7 @@ SP . . . . . . . .  D ADDR   0081H   A
 STARTUP1 . . . . .  C ADDR   0000H   R   SEG=?C_C51STARTUP
 XBPSTACK . . . . .  N NUMB   0000H   A   
 XBPSTACKTOP. . . .  N NUMB   0000H   A   
-XDATALEN . . . . .  N NUMB   0080H   A   
+XDATALEN . . . . .  N NUMB   0400H   A   
 XDATALOOP. . . . .  C ADDR   000EH   R   SEG=?C_C51STARTUP
 XDATASTART . . . .  N NUMB   0080H   A   
 

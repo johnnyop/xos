@@ -6,7 +6,7 @@
 #include "xos.h"
 #define DATA_PARALLEL	1
 #define DATA_SERIAL		0
-#define DATA_MODE	1	
+#define DATA_MODE	0	
 #ifdef BOARD	
 sbit RS=P2^2;
 sbit RW=P2^1;
@@ -17,18 +17,19 @@ sbit cbusy=P1^7;
 #define data0 P1
 
 #else
-sbit RS = P2 ^ 0;
-sbit RW = P2 ^ 1;
-sbit EN = P3 ^ 2;
-sbit RST = P3 ^ 5;
-sbit PSB = P3 ^ 3;
+sbit RS = P3 ^ 2;  //30
+sbit RW = P3 ^ 3;  //31
+sbit EN = P3 ^ 4;  //32
+sbit RST = P3 ^ 5; //35
+sbit PSB = P3 ^ 6; //33
+/* RS 30; RW 31; EN 32; RST 35; PSB 33**/
 
-sbit CS = P2^0;
-sbit SID = P2^1;
-sbit SCLK = P3^2;
-
-sbit cbusy = P0 ^ 7;
-#define data0 P0
+#define CS RS
+#define SID RW
+#define SCLK EN
+						  
+#define data0 P1
+sbit cbusy = data0 ^ 7;
 #endif /* BOARD */
 
 sbit ACC7 = ACC^7;
@@ -40,10 +41,6 @@ sbit ACC2 = ACC^2;
 sbit ACC1 = ACC^1;
 sbit ACC0 = ACC^0;
 
-#define RW_WR	0
-#define RW_RD	1
-#define RS_CMD	0
-#define RS_DATA	1
 #define SET_CS()	CS = 1
 #define CLR_CS()	CS = 0
 #define SET_CLKH()		SCLK = 1
@@ -399,7 +396,7 @@ void clear_lcd(void)
 			write_data(0,0x34);
 			write_data(0,0x80+j);
 			write_data(0,0x80+i);
-			write_data(0,0x30);
+	//		write_data(0,0x30);
 			write_data(1,0);
 			write_data(1,0);
 
@@ -501,7 +498,6 @@ void draw_point(register u8_t  x,register u8_t  y,register u8_t  b)
 	write_data(0,0x34);
 	write_data(0,y+0x80);
 	write_data(0,x);
-	write_data(0,0x30);
 	write_data(1,ch>>8);
 	write_data(1,ch&0x00ff);
 	write_data(0,0x36);	
@@ -593,6 +589,62 @@ void draw_line(u8_t data x1, u8_t data y1,u8_t data x2,u8_t data y2, u8_t b)
 		++i;
 	}
 }
+#if 0
+void draw_64x64(u8_t *pic)
+{
+	register u8_t x, y, index = 0;
+	u8_t *pic2 = (pic + 256);
+	for (y = 0; y < 32; ++y) {
+		for (x = 0; x < 4; ++x) {
+			/* upper */
+			write_data(RS_CMD, CMD_EXT);
+			write_data(RS_CMD, CMD_CGRAM(y));
+			write_data(RS_CMD, CMD_CGRAM(x));
+			write_data(0,0x30);
+			write_data(RS_DATA, pic[index]);
+			write_data(RS_DATA, pic[index + 1]);
+			/* lower */
+			write_data(RS_CMD, CMD_EXT);
+			write_data(RS_CMD, CMD_CGRAM(y));
+			write_data(RS_CMD, CMD_CGRAM(x + 8));
+			write_data(0,0x30);
+			write_data(RS_DATA, pic2[index]);
+			write_data(RS_DATA, pic2[++index]);
+			++index;
+		}
+	}
+	write_data (0,CMD_EXT_G);
+}
+#endif
+
+void draw_tran(u8_t *pic)
+{
+	register u8_t x, y;
+	for (y = 1; y < 32; ++y) {
+		for (x = 1; x < 8; ++x) {
+			write_data(RS_CMD, CMD_EXT);
+			write_data(RS_CMD, CMD_CGRAM(y));
+			write_data(RS_CMD, CMD_CGRAM(x));
+			write_data(RS_DATA, *pic);
+			++pic;
+			write_data(RS_DATA, *pic);
+			++pic;
+		}
+	}
+	for (y = 0; y < 29; ++y) {
+		for (x = 1; x < 8; ++x) {
+			write_data(RS_CMD, CMD_EXT);
+			write_data(RS_CMD, CMD_CGRAM(y));
+			write_data(RS_CMD, CMD_CGRAM(x + 8));
+			write_data(RS_DATA, *pic);
+			++pic;
+			write_data(RS_DATA, *pic);
+			++pic;
+
+		}
+	}		
+	write_data (0,CMD_EXT_G);
+}
 
 #if SHOW_PIC
 void pps(u8_t *img)
@@ -606,7 +658,6 @@ void pps(u8_t *img)
 			write_data(0,0x34);
 			write_data(0,0x80+j);
 			write_data(0,0x80+i);
-			write_data(0,0x30);
 			write_data(1,img[j*16+i*2]);
 			write_data(1,img[j*16+i*2+1]);
 		}
@@ -618,7 +669,6 @@ void pps(u8_t *img)
 			write_data(0,0x34);
 			write_data(0,0x80+j-32);
 			write_data(0,0x88+i);
-			write_data(0,0x30);
 			write_data(1,img[j*16+i*2]);
 			write_data(1,img[j*16+i*2+1]);
 		}

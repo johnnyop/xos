@@ -1,3 +1,7 @@
+/**
+ * \file xlib.c
+ * \brief 提供常用函数, 未完善
+ */
 #include "xlib.h"
 /*12MHz 
 12T

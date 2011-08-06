@@ -12,210 +12,270 @@ ACC4	.\src\12864.c	/^sbit ACC4 = ACC^4;$/;"	v
 ACC5	.\src\12864.c	/^sbit ACC5 = ACC^5;$/;"	v
 ACC6	.\src\12864.c	/^sbit ACC6 = ACC^6;$/;"	v
 ACC7	.\src\12864.c	/^sbit ACC7 = ACC^7;$/;"	v
-BUSY_TIME	.\src\1602.c	6;"	d	file:
+AD0	.\src\stcad.h	8;"	d
+AD1	.\src\stcad.h	9;"	d
+AD2	.\src\stcad.h	10;"	d
+AD3	.\src\stcad.h	11;"	d
+AD4	.\src\stcad.h	12;"	d
+AD5	.\src\stcad.h	13;"	d
+AD6	.\src\stcad.h	14;"	d
+AD7	.\src\stcad.h	15;"	d
+AD_CHANNEL0	.\src\stcad.h	50;"	d
+AD_CHANNEL1	.\src\stcad.h	51;"	d
+AD_CHANNEL2	.\src\stcad.h	52;"	d
+AD_CHANNEL3	.\src\stcad.h	53;"	d
+AD_CHANNEL4	.\src\stcad.h	54;"	d
+AD_CHANNEL5	.\src\stcad.h	55;"	d
+AD_CHANNEL6	.\src\stcad.h	56;"	d
+AD_CHANNEL7	.\src\stcad.h	57;"	d
+AD_POWER	.\src\stcad.h	21;"	d
+AD_SPEED	.\src\stcad.h	22;"	d
+AD_SPEED_180	.\src\stcad.h	29;"	d
+AD_SPEED_360	.\src\stcad.h	30;"	d
+AD_SPEED_540	.\src\stcad.h	31;"	d
+AD_SPEED_90	.\src\stcad.h	28;"	d
+AD_START	.\src\stcad.h	23;"	d
+AD_START_CONVERT	.\src\stcad.h	25;"	d
+BUSY_TIME	.\src\1602.c	5;"	d	file:
 CLEAR_SHOW	.\inc\1602.h	41;"	d
-CLR_CS	.\src\12864.c	48;"	d	file:
+CLR_CS	.\src\12864.c	45;"	d	file:
+CMD	.\src\12864.c	184;"	d	file:
 CMD_1	.\inc\1602.h	44;"	d
 CMD_2	.\inc\1602.h	49;"	d
-CPU_12T	.\inc\kernel\xos_opt.h	16;"	d
-CPU_1T	.\inc\kernel\xos_opt.h	15;"	d
-CPU_T	.\inc\kernel\xos_opt.h	17;"	d
+CMD_BASE	.\inc\12864.h	22;"	d
+CMD_BASE_G	.\inc\12864.h	23;"	d
+CMD_CGRAM	.\inc\12864.h	21;"	d
+CMD_EXT	.\inc\12864.h	24;"	d
+CMD_EXT_G	.\inc\12864.h	25;"	d
+CN_LINE0	.\inc\12864.h	12;"	d
+CN_LINE1	.\inc\12864.h	13;"	d
+CN_LINE2	.\inc\12864.h	14;"	d
+CN_LINE3	.\inc\12864.h	15;"	d
+CPU_12T	.\inc\kernel\xos_opt.h	15;"	d
+CPU_1T	.\inc\kernel\xos_opt.h	14;"	d
+CPU_T	.\inc\kernel\xos_opt.h	16;"	d
 CRYSTAL_1602	.\inc\1602.h	53;"	d
-CS	.\src\12864.c	/^sbit CS = P2^0;$/;"	v
+CS	.\src\12864.c	27;"	d	file:
 CURSOR_BIT	.\inc\1602.h	46;"	d
-C_BP	.\inc\kernel\xos_opt.h	77;"	d
-C_BP_END	.\inc\kernel\xos_opt.h	79;"	d
-C_BP_SIZE	.\inc\kernel\xos_opt.h	78;"	d
-C_BP_START	.\inc\kernel\xos_opt.h	80;"	d
+C_BP	.\inc\kernel\xos_opt.h	90;"	d
+C_BP_END	.\inc\kernel\xos_opt.h	92;"	d
+C_BP_SIZE	.\inc\kernel\xos_opt.h	91;"	d
+C_BP_START	.\inc\kernel\xos_opt.h	93;"	d
+C_BUSY_TIME	.\src\12864.c	190;"	d	file:
+DATA	.\src\12864.c	185;"	d	file:
 DATA_MODE	.\src\12864.c	9;"	d	file:
 DATA_PARALLEL	.\src\12864.c	7;"	d	file:
 DATA_SERIAL	.\src\12864.c	8;"	d	file:
-EN	.\src\12864.c	/^sbit EN = P3 ^ 2;$/;"	v
+DISPLAY_STR	.\inc\12864.h	28;"	d
+EN	.\src\12864.c	/^sbit EN = P3 ^ 4;  \/\/32$/;"	v
 EN	.\src\12864.c	/^sbit EN=P2^0;$/;"	v
 ENTER	.\inc\1602.h	42;"	d
-ETN	.\inc\kernel\xos_opt.h	40;"	d
+ETN	.\inc\kernel\xos_opt.h	50;"	d
 FLASH_BIT	.\inc\1602.h	47;"	d
-FOSC	.\inc\kernel\xos_opt.h	31;"	d
-FOSC12	.\inc\kernel\xos_opt.h	33;"	d
-HZ	.\inc\kernel\xos_opt.h	27;"	d
-ID_TIMESLICE	.\inc\kernel\xos_opt.h	109;"	d
-INCLUDE_MCU	.\inc\kernel\xos_opt.h	19;"	d
+FOSC	.\inc\kernel\xos_opt.h	40;"	d
+FOSC12	.\inc\kernel\xos_opt.h	42;"	d
+HZ	.\inc\kernel\xos_opt.h	33;"	d
+ID_TIMESLICE	.\inc\kernel\xos.h	18;"	d
 KERNEL_H	.\inc\kernel\kernel.h	2;"	d
+LCD_CMD	.\src\12864.c	183;"	d	file:
+LCD_DATA	.\src\12864.c	182;"	d	file:
 LINE_0	.\inc\1602.h	37;"	d
 LINE_1	.\inc\1602.h	38;"	d
+LOWER_HALF	.\inc\12864.h	18;"	d
 L_data	.\inc\1602.h	26;"	d
 L_data	.\inc\1602.h	31;"	d
-MAX_TASK	.\inc\kernel\xos_opt.h	93;"	d
+MAX_TASK	.\inc\kernel\xos_opt.h	107;"	d
+MCU_H	.\inc\kernel\xos_opt.h	21;"	d
+MCU_H	.\inc\kernel\xos_opt.h	23;"	d
 MOVE_DIR	.\inc\1602.h	51;"	d
-NREG	.\inc\kernel\xos_opt.h	98;"	d
-NR_TASK	.\inc\kernel\xos_opt.h	26;"	d
+NREG	.\inc\kernel\xos_opt.h	115;"	d
+NR_TASK	.\inc\kernel\xos_opt.h	31;"	d
 OTHERS_BOARD	.\inc\1602.h	23;"	d
 POINT_BIT	.\inc\1602.h	50;"	d
-PSB	.\src\12864.c	/^sbit PSB = P3 ^ 3;$/;"	v
+PSB	.\src\12864.c	/^sbit PSB = P3 ^ 6; \/\/33$/;"	v
 PSB	.\src\12864.c	/^sbit PSB=P3^0;$/;"	v
-RS	.\src\12864.c	/^sbit RS = P2 ^ 0;$/;"	v
+RS	.\src\12864.c	/^sbit RS = P3 ^ 2;  \/\/30$/;"	v
 RS	.\src\12864.c	/^sbit RS=P2^2;$/;"	v
-RST	.\src\12864.c	/^sbit RST = P3 ^ 5;$/;"	v
+RST	.\src\12864.c	/^sbit RST = P3 ^ 5; \/\/35$/;"	v
 RST	.\src\12864.c	/^sbit RST=P3^1;$/;"	v
-RS_CMD	.\src\12864.c	45;"	d	file:
-RS_DATA	.\src\12864.c	46;"	d	file:
-RW	.\src\12864.c	/^sbit RW = P2 ^ 1;$/;"	v
+RS_CMD	.\inc\12864.h	9;"	d
+RS_DATA	.\inc\12864.h	10;"	d
+RW	.\src\12864.c	/^sbit RW = P3 ^ 3;  \/\/31$/;"	v
 RW	.\src\12864.c	/^sbit RW=P2^1;$/;"	v
-RW_RD	.\src\12864.c	44;"	d	file:
-RW_WR	.\src\12864.c	43;"	d	file:
-SAVE_REG	.\inc\kernel\xos_opt.h	94;"	d
-SCLK	.\src\12864.c	/^sbit SCLK = P3^2;$/;"	v
-SEM_COUNT	.\inc\kernel\xos_opt.h	112;"	d
+RW_RD	.\inc\12864.h	8;"	d
+RW_WR	.\inc\12864.h	7;"	d
+SAVE_REG	.\inc\kernel\xos_opt.h	109;"	d
+SCLK	.\src\12864.c	29;"	d	file:
+SEM_COUNT	.\inc\kernel\xos.h	21;"	d
 SEM_H	.\inc\xlib\sem.h	2;"	d
-SET_CLKH	.\src\12864.c	49;"	d	file:
-SET_CLKL	.\src\12864.c	50;"	d	file:
-SET_CMD	.\src\12864.c	53;"	d	file:
-SET_CS	.\src\12864.c	47;"	d	file:
-SET_DATA	.\src\12864.c	54;"	d	file:
-SET_READ	.\src\12864.c	52;"	d	file:
-SET_WRITE	.\src\12864.c	51;"	d	file:
+SET_CLKH	.\src\12864.c	46;"	d	file:
+SET_CLKL	.\src\12864.c	47;"	d	file:
+SET_CMD	.\src\12864.c	50;"	d	file:
+SET_CS	.\src\12864.c	44;"	d	file:
+SET_DATA	.\src\12864.c	51;"	d	file:
+SET_READ	.\src\12864.c	49;"	d	file:
+SET_WRITE	.\src\12864.c	48;"	d	file:
 SHOW_BIT	.\inc\1602.h	45;"	d
-SHOW_PIC	.\inc\12864.h	8;"	d
-SID	.\src\12864.c	/^sbit SID = P2^1;$/;"	v
-SLEEPED_FIRST	.\inc\kernel\xos_opt.h	55;"	d
-SLEEP_TIME	.\inc\kernel\xos_opt.h	111;"	d
-STACK_END	.\inc\kernel\xos_opt.h	67;"	d
-STACK_START	.\inc\kernel\xos_opt.h	66;"	d
-STACK_SZ	.\inc\kernel\xos_opt.h	69;"	d
-STACT_BOTTOM	.\inc\kernel\xos_opt.h	108;"	d
-STC12C5A	.\inc\kernel\xos_opt.h	14;"	d
-TASK_OVER	.\inc\kernel\xos_opt.h	104;"	d
-TASK_SEM_WAIT	.\inc\kernel\xos_opt.h	102;"	d
-TASK_SLEEP	.\inc\kernel\xos_opt.h	103;"	d
-TASK_STATUS	.\inc\kernel\xos_opt.h	110;"	d
-TASK_SZ	.\inc\kernel\xos_opt.h	95;"	d
-TCLK_SETUP	.\src\12864.c	67;"	d	file:
-TCLK_SETUP	.\src\12864.c	90;"	d	file:
-TCLK_WH	.\src\12864.c	59;"	d	file:
-TCLK_WH	.\src\12864.c	82;"	d	file:
-TCLK_WL	.\src\12864.c	63;"	d	file:
-TCLK_WL	.\src\12864.c	86;"	d	file:
-TDATA_HOLD	.\src\12864.c	75;"	d	file:
-TDATA_HOLD	.\src\12864.c	97;"	d	file:
-TDATA_SETUP	.\src\12864.c	71;"	d	file:
-TDATA_SETUP	.\src\12864.c	94;"	d	file:
-THN	.\inc\kernel\xos_opt.h	37;"	d
-THX	.\inc\kernel\xos_opt.h	34;"	d
-TICK_TIME	.\inc\kernel\xos_opt.h	28;"	d
-TIME_SLICE	.\inc\kernel\xos_opt.h	29;"	d
-TLN	.\inc\kernel\xos_opt.h	38;"	d
-TLX	.\inc\kernel\xos_opt.h	35;"	d
-TRN	.\inc\kernel\xos_opt.h	39;"	d
+SHOW_PIC	.\inc\12864.h	27;"	d
+SID	.\src\12864.c	28;"	d	file:
+SLEEPED_FIRST	.\inc\kernel\xos_opt.h	65;"	d
+SLEEP_TIME	.\inc\kernel\xos.h	20;"	d
+STACK_END	.\inc\kernel\xos_opt.h	79;"	d
+STACK_START	.\inc\kernel\xos_opt.h	77;"	d
+STACK_SZ	.\inc\kernel\xos_opt.h	81;"	d
+STACT_BOTTOM	.\inc\kernel\xos.h	17;"	d
+STC12C5A	.\inc\kernel\xos_opt.h	13;"	d
+STCAD_H	.\src\stcad.h	2;"	d
+TASK_OVER	.\inc\kernel\xos.h	36;"	d
+TASK_SEM_WAIT	.\inc\kernel\xos.h	32;"	d
+TASK_SLEEP	.\inc\kernel\xos.h	34;"	d
+TASK_STATUS	.\inc\kernel\xos.h	19;"	d
+TASK_SZ	.\inc\kernel\xos_opt.h	112;"	d
+TC	.\src\12864.c	202;"	d	file:
+TCLK_SETUP	.\src\12864.c	64;"	d	file:
+TCLK_SETUP	.\src\12864.c	87;"	d	file:
+TCLK_WH	.\src\12864.c	56;"	d	file:
+TCLK_WH	.\src\12864.c	79;"	d	file:
+TCLK_WL	.\src\12864.c	60;"	d	file:
+TCLK_WL	.\src\12864.c	83;"	d	file:
+TDATA_HOLD	.\src\12864.c	72;"	d	file:
+TDATA_HOLD	.\src\12864.c	94;"	d	file:
+TDATA_SETUP	.\src\12864.c	68;"	d	file:
+TDATA_SETUP	.\src\12864.c	91;"	d	file:
+THN	.\inc\kernel\xos_opt.h	47;"	d
+THX	.\inc\kernel\xos_opt.h	44;"	d
+TICK_TIME	.\inc\kernel\xos_opt.h	35;"	d
+TIME_SLICE	.\inc\kernel\xos_opt.h	37;"	d
+TLN	.\inc\kernel\xos_opt.h	48;"	d
+TLX	.\inc\kernel\xos_opt.h	45;"	d
+TRN	.\inc\kernel\xos_opt.h	49;"	d
 UART_H_	.\inc\uart.h	6;"	d
-USEDREG	.\inc\kernel\xos_opt.h	99;"	d
-VFOSC	.\inc\kernel\xos_opt.h	32;"	d
+UPPER_HALF	.\inc\12864.h	17;"	d
+USEDREG	.\inc\kernel\xos_opt.h	116;"	d
+VFOSC	.\inc\kernel\xos_opt.h	41;"	d
 XLIB_H	.\inc\kernel\xlib.h	2;"	d
 XOS_H	.\inc\kernel\xos.h	9;"	d
-XOS_OPT_H	.\inc\kernel\xos_opt.h	6;"	d
-XOS_REENTRANT	.\inc\kernel\xos_opt.h	76;"	d
+XOS_OPT_H	.\inc\kernel\xos_opt.h	11;"	d
+XOS_REENTRANT	.\inc\kernel\xos_opt.h	89;"	d
 _12864_H_	.\inc\12864.h	2;"	d
 _1602_H	.\inc\1602.h	21;"	d
+_DEF_H	.\inc\def.h	2;"	d
 _DEF_H	.\inc\kernel\type.h	2;"	d
-__anon1::count	.\inc\xlib\sem.h	/^	u8 count;		\/\/ 计数器$/;"	m	struct:__anon1	access:public
-__anon1::wait_task	.\inc\xlib\sem.h	/^	u8 wait_task;	\/\/ 等待该信号量的任务，　XOS最大任务数为8,  $/;"	m	struct:__anon1	access:public
-_irq	.\src\kernel\xos.c	/^u8_t data _irq;$/;"	v
-_pop_task	.\inc\kernel\kernel.h	/^extern void _pop_task();$/;"	p	signature:()
-add_task	.\inc\kernel\xos.h	/^extern void add_task(unsigned int func);$/;"	p	signature:(unsigned int func)
-add_task	.\src\kernel\xos.c	/^void add_task(unsigned int func) $/;"	f	signature:(unsigned int func)
+__ad_poll_end	.\src\stcad.h	36;"	d
+ad_clear_end	.\src\stcad.h	35;"	d
+ad_cleario	.\src\stcad.h	17;"	d
+ad_convert_not_end	.\src\stcad.h	34;"	d
+ad_init	.\src\stcad.c	/^void ad_init(u8_t ch)$/;"	f
+ad_poll_end	.\src\stcad.h	42;"	d
+ad_poll_get	.\src\stcad.c	/^u8_t ad_poll_get(u8_t ch)$/;"	f
+ad_power_off	.\src\stcad.h	19;"	d
+ad_power_on	.\src\stcad.h	18;"	d
+ad_set_channel	.\src\stcad.h	59;"	d
+ad_set_hres	.\src\stcad.h	60;"	d
+ad_set_lres	.\src\stcad.h	61;"	d
+ad_set_speed	.\src\stcad.h	32;"	d
+ad_setio	.\src\stcad.h	16;"	d
+ad_start	.\src\stcad.h	48;"	d
+add_task	.\src\kernel\xos.c	/^void add_task(unsigned int func) $/;"	f
+adres0	.\src\test.c	/^u8_t adres0, adres1, adres2;$/;"	v
+adres1	.\src\test.c	/^u8_t adres0, adres1, adres2;$/;"	v
+adres2	.\src\test.c	/^u8_t adres0, adres1, adres2;$/;"	v
 bp	.\src\kernel\kernel.c	/^	u8_t data bp[NR_TASK];  $/;"	v
-cbusy	.\src\12864.c	/^sbit cbusy = P0 ^ 7;$/;"	v
+cbusy	.\src\12864.c	/^sbit cbusy = data0 ^ 7;$/;"	v
 cbusy	.\src\12864.c	/^sbit cbusy=P1^7;$/;"	v
-check_busy	.\src\1602.c	/^static unsigned char check_busy(void) ;$/;"	p	file:	signature:(void)
-check_busy	.\src\1602.c	/^static unsigned char check_busy(void) \/\/检测LCD状态，看它是不是还在忙呢$/;"	f	file:	signature:(void)
-clear_12864	.\inc\12864.h	/^extern void clear_12864(void);$/;"	p	signature:(void)
-clear_lcd	.\inc\12864.h	/^extern void clear_lcd(void);  				\/*清屏,全部为空*\/$/;"	p	signature:(void)
-clr_os	.\inc\kernel\xos.h	62;"	d
-count	.\inc\xlib\sem.h	/^	u8 count;		\/\/ 计数器$/;"	m	struct:__anon1	access:public
-current	.\src\kernel\xos.c	/^u8_t data current = 0; \/*当前任务*\/$/;"	v
+check_busy	.\src\1602.c	/^static unsigned char check_busy(void) \/\/检测LCD状态，看它是不是还在忙呢$/;"	f	file:
+clr_os	.\inc\kernel\xos.h	67;"	d
+count	.\inc\xlib\sem.h	/^	u8 count;		\/\/ 计数器$/;"	m	struct:__anon1
+current	.\src\kernel\xos.c	/^u8_t data current = 0; $/;"	v
 customize_c_bp	.\src\kernel\xos.c	/^static void customize_c_bp()$/;"	f	file:
 customize_stack	.\src\kernel\xos.c	/^static void customize_stack()$/;"	f	file:
 data0	.\src\12864.c	17;"	d	file:
 data0	.\src\12864.c	31;"	d	file:
-decreas_sleep_time	.\inc\kernel\kernel.h	/^extern void decreas_sleep_time();  $/;"	p	signature:()
 decreas_sleep_time	.\src\kernel\kernel.c	/^static void decreas_sleep_time()$/;"	f	file:
-delay	.\src\test.c	/^void delay(int n) {$/;"	f	file:	signature:(int n)
-delayms	.\inc\kernel\xlib.h	/^void delayms(register u8_t m);$/;"	p	signature:(register u8_t m)
-delayms	.\src\kernel\xlib.c	/^void delayms(register u8_t u)$/;"	f	signature:(register u8_t u)
-delayus	.\inc\kernel\xlib.h	/^void delayus(register u8_t u);$/;"	p	signature:(register u8_t u)
-delayus	.\src\kernel\xlib.c	/^void delayus(register u8_t u)$/;"	f	signature:(register u8_t u)
-disable_irq	.\inc\kernel\xos.h	67;"	d
-disable_irq_save	.\inc\kernel\xos.h	77;"	d
-disable_tick	.\inc\kernel\xos.h	64;"	d
-do_schedule	.\inc\kernel\kernel.h	/^extern void do_schedule();$/;"	p	signature:()
+delay	.\src\test.c	/^void delay(int n) {$/;"	f	file:
+delayms	.\src\kernel\xlib.c	/^void delayms(register u8_t u)$/;"	f
+delayus	.\src\kernel\xlib.c	/^void delayus(register u8_t u)$/;"	f
+disable_irq	.\inc\kernel\xos.h	72;"	d
+disable_irq_save	.\inc\kernel\xos.h	82;"	d
+disable_tick	.\inc\kernel\xos.h	69;"	d
+disfiRSt	.\src\12864.c	186;"	d	file:
 do_schedule	.\src\kernel\kernel.c	/^void do_schedule()$/;"	f
-draw_line	.\inc\12864.h	/^void draw_line(u8_t data x1, u8_t data y1,u8_t data x2,u8_t data y2, u8_t b);$/;"	p	signature:(u8_t data x1, u8_t data y1,u8_t data x2,u8_t data y2, u8_t b)
-draw_point	.\inc\12864.h	/^void draw_point(register u8_t  x, register u8_t  y, register u8_t  b);$/;"	p	signature:(register u8_t x, register u8_t y, register u8_t b)
 en	.\inc\1602.h	/^	sbit en=P1^0;$/;"	v
 en	.\inc\1602.h	/^	sbit en=P3^2;$/;"	v
-enable_irq	.\inc\kernel\xos.h	72;"	d
-enable_irq_restore	.\inc\kernel\xos.h	81;"	d
-enable_tick	.\inc\kernel\xos.h	65;"	d
-find_next	.\inc\kernel\kernel.h	/^extern u8_t find_next();$/;"	p	signature:()
+enable_irq	.\inc\kernel\xos.h	77;"	d
+enable_irq_restore	.\inc\kernel\xos.h	86;"	d
+enable_tick	.\inc\kernel\xos.h	70;"	d
+enter_serial	.\src\12864.c	162;"	d	file:
+exit_serial	.\src\12864.c	170;"	d	file:
+fall_clk	.\src\12864.c	109;"	d	file:
+fall_clk_hold	.\src\12864.c	110;"	d	file:
 find_next	.\src\kernel\kernel.c	/^u8_t find_next()$/;"	f
+get_slcd_sid	.\src\12864.c	108;"	d	file:
 id_timeslice	.\src\kernel\xos.c	/^u8_t data id_timeslice[NR_TASK];						   $/;"	v
-init_12864	.\inc\12864.h	/^extern void init_12864(void); \/*初始化LCD*\/$/;"	p	signature:(void)
-init_1602	.\inc\1602.h	/^extern void init_1602();$/;"	p	signature:()
 init_1602	.\src\1602.c	/^void init_1602() {$/;"	f
-init_uart	.\inc\uart.h	/^extern void init_uart(unsigned char th, unsigned char smod);$/;"	p	signature:(unsigned char th, unsigned char smod)
-init_uart	.\src\uart.c	/^void init_uart(unsigned char th, unsigned char smod)$/;"	f	signature:(unsigned char th, unsigned char smod)
-is_kernel	.\inc\kernel\xos.h	60;"	d
+init_uart	.\src\uart.c	/^void init_uart(unsigned char th, unsigned char smod)$/;"	f
+is_kernel	.\inc\kernel\xos.h	65;"	d
 main	.\src\test.c	/^void main() {  $/;"	f
 os_sp	.\src\kernel\xos.c	/^u8_t data os_sp;$/;"	v
-pop_task	.\inc\kernel\kernel.h	/^extern void pop_task(u8_t id);$/;"	p	signature:(u8_t id)
-pps	.\src\test.c	/^void pps(u8_t *img);$/;"	p	file:	signature:(u8_t *img)
-printc	.\inc\1602.h	/^extern void printc(unsigned char x,unsigned char y,unsigned char dat);$/;"	p	signature:(unsigned char x,unsigned char y,unsigned char dat)
-printc	.\src\1602.c	/^void printc(unsigned char x, unsigned char y, unsigned char dat) {$/;"	f	signature:(unsigned char x, unsigned char y, unsigned char dat)
-prints	.\inc\1602.h	/^extern void prints(unsigned char x,unsigned char y,unsigned char *dat);$/;"	p	signature:(unsigned char x,unsigned char y,unsigned char *dat)
-prints	.\src\1602.c	/^void prints(unsigned char x, unsigned char y, unsigned char *dat) {$/;"	f	signature:(unsigned char x, unsigned char y, unsigned char *dat)
-printstr	.\inc\12864.h	/^extern void printstr(register u8_t  x, register u8_t y, unsigned char n, unsigned char *chi); \/*在X,Y处显示一个(16*16)汉字*\/$/;"	p	signature:(register u8_t x, register u8_t y, unsigned char n, unsigned char *chi)
-rand	.\inc\kernel\xos.h	95;"	d
-reverse	.\inc\12864.h	/^extern void reverse(unsigned char line);$/;"	p	signature:(unsigned char line)
+printc	.\src\1602.c	/^void printc(unsigned char x, unsigned char y, unsigned char dat) {$/;"	f
+prints	.\src\1602.c	/^void prints(unsigned char x, unsigned char y, unsigned char *dat) {$/;"	f
+rabbit	.\src\transistor.c	/^xdata u8_t  rabbit[60 * 14]  = {$/;"	v
+rabbit	.\src\transistor.c	/^xdata u8_t  rabbit[60 * 14];$/;"	v
+rand	.\inc\kernel\xos.h	90;"	d
+read_serial_bit	.\src\12864.c	126;"	d	file:
+read_serial_dis	.\src\12864.c	148;"	d	file:
+rise_clk	.\src\12864.c	104;"	d	file:
+rise_clk_hold	.\src\12864.c	103;"	d	file:
+rise_clk_setup	.\src\12864.c	102;"	d	file:
 rs	.\inc\1602.h	/^	sbit rs=P1^2;$/;"	v
 rs	.\inc\1602.h	/^	sbit rs=P3^0;$/;"	v
 rw	.\inc\1602.h	/^	sbit rw=P1^1;$/;"	v
 rw	.\inc\1602.h	/^	sbit rw=P3^1;$/;"	v
+s16	.\inc\def.h	/^typedef int s16;$/;"	t
 s16_t	.\inc\kernel\type.h	/^typedef short s16_t;$/;"	t
+s32	.\inc\def.h	/^typedef long s32;$/;"	t
 s32_t	.\inc\kernel\type.h	/^typedef long s32_t;$/;"	t
+s8	.\inc\def.h	/^typedef char s8;$/;"	t
 s8_t	.\inc\kernel\type.h	/^typedef char s8_t;$/;"	t
-sb	.\src\test.c	/^unsigned char sb = 0, sb2 = 0;$/;"	v
-sb2	.\src\test.c	/^unsigned char sb = 0, sb2 = 0;$/;"	v
-schedule	.\inc\kernel\xos.h	/^extern void schedule();$/;"	p	signature:()
 schedule	.\src\kernel\xos.c	/^void schedule()$/;"	f
 sem	.\src\test.c	/^semphore sem = { 0, 0 };$/;"	v
 sem_count	.\src\xlib\sem.c	/^u8 data sem_count[NR_TASK];$/;"	v
-sem_down	.\inc\xlib\sem.h	/^extern void sem_down(semphore *sem);$/;"	p	signature:(semphore *sem)
-sem_down	.\src\xlib\sem.c	/^void sem_down(semphore *sem)$/;"	f	signature:(semphore *sem)
-sem_try_down	.\inc\xlib\sem.h	/^extern u8 sem_try_down(semphore *sem);$/;"	p	signature:(semphore *sem)
-sem_try_down	.\src\xlib\sem.c	/^u8 sem_try_down(semphore *sem)$/;"	f	signature:(semphore *sem)
-sem_up	.\inc\xlib\sem.h	/^extern void sem_up(semphore *sem, unsigned char n);$/;"	p	signature:(semphore *sem, unsigned char n)
-sem_up	.\src\xlib\sem.c	/^void sem_up(semphore *sem, unsigned char n)$/;"	f	signature:(semphore *sem, unsigned char n)
+sem_down	.\src\xlib\sem.c	/^void sem_down(semphore *sem)$/;"	f
+sem_try_down	.\src\xlib\sem.c	/^u8 sem_try_down(semphore *sem)$/;"	f
+sem_up	.\src\xlib\sem.c	/^void sem_up(semphore *sem, unsigned char n)$/;"	f
 semphore	.\inc\xlib\sem.h	/^}semphore;$/;"	t	typeref:struct:__anon1
-set_os	.\inc\kernel\xos.h	61;"	d
-sleep	.\inc\kernel\xos.h	/^extern void sleep(unsigned int n);$/;"	p	signature:(unsigned int n)
-sleep	.\src\kernel\xos.c	/^void sleep(unsigned int n) $/;"	f	signature:(unsigned int n)
+send_poll	.\src\test.c	21;"	d	file:
+set_12864_rwrs	.\src\12864.c	135;"	d	file:
+set_os	.\inc\kernel\xos.h	66;"	d
+set_slcd_data	.\src\12864.c	106;"	d	file:
+set_slcd_data_hold	.\src\12864.c	107;"	d	file:
+set_slcd_sid	.\src\12864.c	105;"	d	file:
+setx	.\src\12864.c	188;"	d	file:
+setxx	.\src\12864.c	189;"	d	file:
+sety	.\src\12864.c	187;"	d	file:
+sleep	.\src\kernel\xos.c	/^void sleep(unsigned int n) $/;"	f
 sleep_time	.\src\kernel\xos.c	/^u16_t data sleep_time[NR_TASK];$/;"	v
 sleeped_task	.\src\kernel\xos.c	/^	u8_t sleeped_task = 0;$/;"	v
 stack_bottom	.\src\kernel\xos.c	/^u8_t data stack_bottom[NR_TASK];$/;"	v
 t1	.\src\test.c	/^static void t1() { \/**\/$/;"	f	file:
-t2	.\src\test.c	/^void t2() { \/**\/$/;"	f	file:
+t2	.\src\test.c	/^void t2() { \/**\/ $/;"	f	file:
 t3	.\src\test.c	/^void t3() { \/**\/$/;"	f	file:
 t4	.\src\test.c	/^void t4() {$/;"	f	file:
-tab5	.\src\test.c	/^unsigned char code tab5[]={$/;"	v
 task_status	.\src\kernel\xos.c	/^u8_t data task_status[NR_TASK];$/;"	v
 tcnt	.\src\test.c	/^u16_t tcnt = 0;$/;"	v
+u16	.\inc\def.h	/^typedef unsigned int u16;$/;"	t
 u16_t	.\inc\kernel\type.h	/^typedef unsigned short u16_t;$/;"	t
+u32	.\inc\def.h	/^typedef unsigned long u32;$/;"	t
 u32_t	.\inc\kernel\type.h	/^typedef unsigned long u32_t;$/;"	t
+u8	.\inc\def.h	/^typedef unsigned char u8;$/;"	t
 u8_t	.\inc\kernel\type.h	/^typedef unsigned char u8_t;$/;"	t
-wait_task	.\inc\xlib\sem.h	/^	u8 wait_task;	\/\/ 等待该信号量的任务，　XOS最大任务数为8,  $/;"	m	struct:__anon1	access:public
-write_1602	.\src\1602.c	/^static void write_1602(unsigned char da, unsigned char cmd) {$/;"	f	file:	signature:(unsigned char da, unsigned char cmd)
-write_1602	.\src\1602.c	/^static void write_1602(unsigned char da, unsigned char cmd);$/;"	p	file:	signature:(unsigned char da, unsigned char cmd)
-writecmd	.\src\1602.c	12;"	d	file:
-writedata	.\src\1602.c	11;"	d	file:
-xos_init	.\inc\kernel\xos.h	/^extern void xos_init();$/;"	p	signature:()
+uc0	.\src\test.c	/^u8_t uc0, uc1;$/;"	v
+uc1	.\src\test.c	/^u8_t uc0, uc1;$/;"	v
+wait_task	.\inc\xlib\sem.h	/^	u8 wait_task;	\/\/ 等待该信号量的任务，　XOS最大任务数为8,  $/;"	m	struct:__anon1
+write_1602	.\src\1602.c	/^static void write_1602(unsigned char da, unsigned char cmd) {$/;"	f	file:
+write_serial_bit	.\src\12864.c	117;"	d	file:
+write_serial_sam	.\src\12864.c	140;"	d	file:
+writecmd	.\src\1602.c	11;"	d	file:
+writedata	.\src\1602.c	10;"	d	file:
 xos_init	.\src\kernel\xos.c	/^void xos_init()$/;"	f
-xpcon	.\src\kernel\kernel.c	/^unsigned char xpcon;$/;"	v
+xpcon	.\src\kernel\kernel.c	/^unsigned char xpcon;	\/* 休眠时,PCON会复位,所以要保存 *\/$/;"	v

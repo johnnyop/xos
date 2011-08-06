@@ -1,17 +1,24 @@
 /**
- * xos API
+ * \file xos.c
+ * \brief xos API
  * */
 #include "xos.h"
 #include "kernel.h"
-#include INCLUDE_MCU
-
-u8_t data current = 0; /*当前任务*/
+/**当前任务*/
+u8_t data current = 0; 
+/** 内核栈指针 */
 u8_t data os_sp;
-u8_t data _irq;
-
+//u8_t data _irq;
+/** 任务栈底 
+ * \sa NR_TASK
+ * */
 u8_t data stack_bottom[NR_TASK];
+/** 任务ID和时间片 */
 u8_t data id_timeslice[NR_TASK];						   
+/** 任务状态 
+ * \sa TASK_SLEEP, TASK_OVER, TASK_SEM_WAIT*/
 u8_t data task_status[NR_TASK];
+/** 任务睡眠时间 */
 u16_t data sleep_time[NR_TASK];
 
 #if (SLEEPED_FIRST != 0)   
@@ -21,13 +28,16 @@ u16_t data sleep_time[NR_TASK];
 #endif /* SLEEPED_FIRST*/	    
 
 #ifdef XOS_REENTRANT  
-	extern u8_t data bp[NR_TASK]; 
 #pragma ASM		 
-	extrn data (?C_IBP)
+	extrn data (?C_IBP) /** 虚拟栈 */
 #pragma ENDASM
-#endif 
-
+	extern u8_t data bp[NR_TASK]; 
+#endif /* XOS_REENTRANT */
+//[0]
 #ifdef CUSTOMIZE_STACK
+/**
+ * \brief 当自定义任务栈时, \a customize_stack 被 \fn xos_init()调用.用来初始化任务栈
+ */
 static void customize_stack()
 {
 	stack_bottom[0] = 0x80 + SAVE_REG + 1;
@@ -35,9 +45,11 @@ static void customize_stack()
 	stack_bottom[id] = STACK_START + SAVE_REG + 1;
 	/* ... */
 }
-#endif
-
+#endif /* CUSTOMIZE_STACK */ 
 #ifdef CUSTOMIZE_C_BP
+/**
+ * 当自定义任务虚拟栈时(c51机制), /fn customize_c_bp 被 /fn xos_init()调用
+ */
 static void customize_c_bp()
 {
 	bp[0] = 0x80;
@@ -45,21 +57,17 @@ static void customize_c_bp()
 	/* ... */
 }
 #endif	/* CUSTOMIZE_C_BP*/
-
-/**
- * xos_init调用. 初始单片机寄存器,数据
- * */
- /**
- 
-XOS_INIT:
-	mov OS_SP, sp	; 保存当前栈位置,,以后重新进入内核都从这个栈开始
-	lcall _init
-	;sp = 任务0栈,开始任务0
-	mov a, stack_bottom
-	clr c
-	subb a, #SAVE_REG
-	mov sp, a	
-	ret
+/*!
+ * 初始单片机寄存器,数据. 初始内核资源, 最后进入任务0
+ * XOS_INIT:
+ * mov OS_SP, sp * ; 保存当前栈位置,,以后重新进入内核都从这个栈开始
+ * lcall _init
+ * ;sp = 任务0栈,开始任务0
+ * mov a, stack_bottom
+ * clr c
+ * subb a, #SAVE_REG
+ * mov sp, a	
+ * ret
  */
 void xos_init()
 {
@@ -93,7 +101,7 @@ void xos_init()
 
 /**
  * 把任务添加到XOS.
- * func: 任务的函数地址
+ * \param func 任务的函数地址
  * */
 void add_task(unsigned int func) 
 {	
@@ -120,7 +128,7 @@ void add_task(unsigned int func)
 }
 
 /**
- * 进行任务调度, 任务让出CPU, 让出一个任务运行. time slice 时间片清0
+ * 进行任务调度, 任务让出CPU, 让出一个任务运行. 任务时间片清0
  * */
 void schedule()
 {
@@ -148,9 +156,10 @@ void schedule()
 
 /**
  * 任务休眠
- * n: 休眠的时间, 单位为HZ,则系统时间片的时间. 如果为HZ(宏)则1秒,
+ * 任务主函数如果不是死循环工作,那么最后应该调用sleep(0),让任务不再工作.否则系统跑飞
+ * \param n 休眠的时间, 单位为\a HZ,则系统时间片的时间. 如果为\a HZ(宏)则1秒,<br>
  * 		如果为0, 则任务不再工作.
- * PS: 任务主函数如果不是死循环工作,那么最后应该调用sleep(0),让任务不再工作.否则系统跑飞
+ * \sa HZ
  * */
 void sleep(unsigned int n) 
 {	
@@ -176,7 +185,7 @@ void sleep(unsigned int n)
 	/* 时间片已用超过一半*/
 	tmp = (0x100 - THN);
 	if (tmp > ((0xff - THX) >> 1))
-		n++;
+		++n;
 	sleep_time[current] = n;
 	tmp = 0;
 	tmp |= TASK_SLEEP;

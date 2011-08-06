@@ -1,10 +1,10 @@
-C51 COMPILER V9.00   SEM                                                                   07/30/2011 11:29:48 PAGE 1   
+C51 COMPILER V9.00   SEM                                                                   08/06/2011 14:48:02 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE SEM
 OBJECT MODULE PLACED IN .\temp\sem.obj
-COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\xlib\sem.c OMF2 BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DEFI
-                    -NE(OVERLAY) DEBUG PRINT(.\temp\sem.lst) OBJECT(.\temp\sem.obj)
+COMPILER INVOKED BY: G:\Keil 4 C51\C51\BIN\C51.EXE src\kernel\sem.c OMF2 BROWSE INCDIR(.\inc;.\inc\xlib;.\inc\kernel) DE
+                    -BUG PRINT(.\temp\sem.lst) OBJECT(.\temp\sem.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
                                               sem->count--;
                                               --sem_count[id];
                                               if (sem_count[id] == 0) {
-C51 COMPILER V9.00   SEM                                                                   07/30/2011 11:29:48 PAGE 2   
+C51 COMPILER V9.00   SEM                                                                   08/06/2011 14:48:02 PAGE 2   
 
                                                       task_status[id] &= (~TASK_SEM_WAIT);
                                               }
